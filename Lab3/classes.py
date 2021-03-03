@@ -1,5 +1,4 @@
-from math import *
-
+from math import sqrt, sin, cos
 from graph import draw_line
 
 

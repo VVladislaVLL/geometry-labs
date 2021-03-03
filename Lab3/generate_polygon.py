@@ -1,5 +1,5 @@
 import random
-from math import *
+from math import pi
 
 from classes import Vector, Point
 from graph import draw_line, draw_point

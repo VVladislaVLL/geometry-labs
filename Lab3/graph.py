@@ -1,6 +1,6 @@
 from tkinter import constants
-from math import *
-import random
+# from math import *
+# import random
 
 
 def create_coordinate_system(canv):
