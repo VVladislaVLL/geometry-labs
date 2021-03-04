@@ -6,6 +6,7 @@ class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.picture = 0
 
     def print_point(self):
         print('(' + str(self.x) + ', ' + str(self.y) + ')')
@@ -48,3 +49,25 @@ class Vector:
 
     def draw(self, canv):
         draw_line(canv, self.p1, self.p2)
+
+    @staticmethod
+    def count_vector(p1, p2):
+        return Vector(p2.x - p1.x, p2.y - p1.y)
+
+    # @staticmethod
+    # def static_sum(v1, v2):
+    #     return Vector(Point(v1.x + v2.x), Point(v1.y + v2.y))
+
+    @staticmethod
+    def static_rotate_vector(vector, angle, flag):
+        if flag:
+            x_ = vector.x * cos(angle) - vector.y * sin(angle)
+            y_ = vector.x * sin(angle) + vector.y * cos(angle)
+        else:
+            x_ = vector.x * cos(angle) + vector.y * sin(angle)
+            y_ = -vector.x * sin(angle) + vector.y * cos(angle)
+
+        r_x = round(x_, 3)
+        r_y = round(y_, 3)
+        r_p2 = Point((vector.x + vector.p1.x), (vector.y + vector.p1.y))
+        return Vector(vector.p1, Point(r_x, r_y))

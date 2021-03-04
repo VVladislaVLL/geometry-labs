@@ -19,7 +19,7 @@ def create_coordinate_system(canv):
 
 
 def draw_point(canv, point, text, shift=-15):
-    canv.create_oval(
+    point.picture = canv.create_oval(
         point.change_system().x - 2,
         point.change_system().y - 2,
         point.change_system().x + 2,
