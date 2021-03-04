@@ -87,7 +87,7 @@ def binary_test(polygon, p0):
     position_p2 = check_point_pos(polygon[0], polygon[n - 1], polygon[1])
     # если P0, Pn по разные стороны P1P2 или P0, P2 по разные стороны P1P2
     if position_p0 * position_pn < 0 or position_p0n * position_p2 < 0:
-        # return 'Не в многоугольнике'
+        print('Не в многоугольнике')
         return False
     start = 1
     end = n - 1
@@ -99,9 +99,11 @@ def binary_test(polygon, p0):
             end = sep
     if check_point_pos(polygon[start], polygon[end], p0) * check_point_pos(polygon[start], polygon[end], polygon[0]) < 0:
         # return 'Не в многоугольнике'
+        print('Не в многоугольнике')
         return False
     else:
         # return 'В многоугольнике'
+        print('В многоугольнике')
         return True
 
 
