@@ -8,7 +8,11 @@ from time import *
 def motion(canv, root, point, vector, mng):
     next_point_pos = Point(point.x + vector.x, point.y + vector.y)
     # canv.move(point.picture, vector.x, vector.y)
-    if not binary_test(mng, next_point_pos) and binary_test(mng, point):
+    flag_next = binary_test(mng, next_point_pos)
+    flag_current = binary_test(mng, point)
+    print('next: inside' if flag_next else 'next: outside')
+    print('current: inside' if flag_current else 'current: outside')
+    if (not flag_next) and flag_current:
         print('столкновение ')
         return
     else:
