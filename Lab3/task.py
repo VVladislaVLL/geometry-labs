@@ -3,17 +3,34 @@ from utils import *
 from graph import *
 from classes import Point, Vector2d
 from time import *
+from math import *
+
+
+def find_side(mng, p1, p2):
+    i = 0
+    length = len(mng)
+    while i < length:
+        if is_intersect(p1, p2, mng[i], mng[i + 1 if i != length else 0]):
+            break
+        i += 1
+    return [i, i + 1 if i != length else 0]
 
 
 def motion(canv, root, point, vector, mng):
     next_point_pos = Point(point.x + vector.x, point.y + vector.y)
-    # canv.move(point.picture, vector.x, vector.y)
     flag_next = binary_test(mng, next_point_pos)
     flag_current = binary_test(mng, point)
     print('next: inside' if flag_next else 'next: outside')
     print('current: inside' if flag_current else 'current: outside')
     if (not flag_next) and flag_current:
         print('столкновение ')
+        draw_point(canv, next_point_pos, 'P')
+        p = find_side(mng, point, next_point_pos)
+        print(p)
+        vec = Vector2d(mng[p[1]].x - mng[p[0]].x, mng[p[1]].y - mng[p[0]].y)
+        normal = Vector2d.s_get_perpendicular(vec.x, vec.y)
+        cos = Vector2d.scalar_product(vector, normal) / (vec.get_module() * normal.get_module())
+        print(acos(cos))
         return
     else:
         canv.move(point.picture, vector.x, vector.y)
