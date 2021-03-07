@@ -33,6 +33,24 @@ def check_point_pos(p1, p2, p0):
         return 0
 
 
+def angle_test(polygon, p0):
+    n = len(polygon)
+    s = 0
+    for i in range(0, n):
+        d1 = octan(p0, polygon[i])
+        d2 = octan(p0, polygon[next_el(i, n)])
+        d = correction(d2 - d1, polygon[i], polygon[next_el(i, n)], p0)
+        if d == 'на стороне':
+            return False
+        s += d
+    if s == 0:
+        return False
+    elif s == 8 or s == -8:
+        return True
+    else:
+        print('ошибка в реализации')
+
+
 def octan(p1, p2):
     x = p2.x - p1.x
     y = p2.y - p1.y
@@ -67,7 +85,7 @@ def correction(d, p1, p2, p0):
             return -4
         else:
             # Точка на многоугольнике
-            return 'Точка на многоугольнике'
+            return 'на стороне'
     else:
         return d
 
