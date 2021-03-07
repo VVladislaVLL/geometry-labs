@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import random
 from time import sleep
 
@@ -5,26 +6,8 @@ from Point import Point
 from Vector2d import Vector2d, pi
 from graph import draw_polygon
 from matplotlib import pyplot as plt
-# from matplotlib.animation import FuncAnimation
 
 from utils import binary_test
-
-
-# def animate_points(i):
-#     global points_set
-#     # next_points = points_set.copy()
-#     #
-#     # for i in range(0, len(points_set)):
-#     #     next_points[i].move()
-#     #     if (not binary_test(big_polygon, next_points[i])) and binary_test(big_polygon, points_set[i]):
-#     #         points_set[i].direction
-#
-#     for point in points_set:
-#         # if binary_test(big_polygon, point)
-#         point.move()
-#     mat.set_data([point.x for point in points_set], [point.y for point in points_set])
-#     return mat,
-
 
 
 def plot_task(P, Q, points):
