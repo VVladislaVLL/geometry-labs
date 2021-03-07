@@ -32,7 +32,7 @@ class Vector2d:
 
     @staticmethod
     def get_vector(alpha, speed=1):
-        return Vector2d(speed * cos(alpha), speed * sin(alpha))
+        return Vector2d(speed * cos(alpha), speed * sin(alpha)), speed
 
     @staticmethod
     def s_get_perpendicular(x, y):
