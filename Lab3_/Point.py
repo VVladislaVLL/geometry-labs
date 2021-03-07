@@ -1,4 +1,6 @@
-import matplotlib.pyplot as plt
+from math import pi
+import random
+# from Vector2d import Vector2d
 
 
 class Point:
@@ -18,3 +20,7 @@ class Point:
     def move(self):
         self.x += self.direction.x
         self.y += self.direction.y
+
+    def prev(self):
+        self.x -= self.direction.x
+        self.y -= self.direction.y
