@@ -28,7 +28,9 @@ def plot_task(P, Q, points):
         draw_polygon(Q)
 
         for i in points:
-            if angle_test(Q, i) or not binary_test(P, i):
+            flag_angle = angle_test(Q, i)
+            flag_binary = binary_test(P, i)
+            if flag_angle or not flag_binary:
                 i.speed = 0
                 plt.scatter(i.x, i.y)
             else:
