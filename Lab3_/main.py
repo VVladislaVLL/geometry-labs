@@ -11,7 +11,7 @@ from utils import binary_test
 
 
 def plot_task(P, Q, points):
-    plt.ion()  # включение интерактивного режима
+    plt.ion()
     s = 0
     for p in points:
         s += p.speed
@@ -28,7 +28,9 @@ def plot_task(P, Q, points):
         draw_polygon(Q)
 
         for i in points:
-            if binary_test(Q, i) or not binary_test(P, i):
+            big_flag = binary_test(Q, i)
+            small_flag = binary_test(P, i)
+            if big_flag or not small_flag:
                 i.speed = 0
                 plt.scatter(i.x, i.y)
             else:
