@@ -7,7 +7,7 @@ from Vector2d import Vector2d, pi
 from graph import draw_polygon
 from matplotlib import pyplot as plt
 
-from utils import binary_test
+from utils import binary_test, angle_test
 
 
 def plot_task(P, Q, points):
@@ -28,9 +28,7 @@ def plot_task(P, Q, points):
         draw_polygon(Q)
 
         for i in points:
-            big_flag = binary_test(Q, i)
-            small_flag = binary_test(P, i)
-            if big_flag or not small_flag:
+            if angle_test(Q, i) or not binary_test(P, i):
                 i.speed = 0
                 plt.scatter(i.x, i.y)
             else:
