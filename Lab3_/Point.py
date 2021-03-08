@@ -1,3 +1,5 @@
+import copy
+import string
 from math import pi
 import random
 # from Vector2d import Vector2d
@@ -8,6 +10,15 @@ class Point:
         self.x = x
         self.y = y
         self.velocity = 0
+
+    def  __str__(self):
+        return f'''
+        Point:
+            x: {self.x}
+            y: {self.y}
+            direction: {self.direction}
+            speed: {self.speed}
+        '''
 
     def print(self):
         print('(' + str(self.x) + ', ' + str(self.y) + ')')
@@ -31,3 +42,8 @@ class Point:
     def stop(self):
         self.direction.x = 0
         self.direction.y = 0
+
+    def get_prev_state(self):
+        prev_state = copy.deepcopy(self)
+        prev_state.prev()
+        return prev_state

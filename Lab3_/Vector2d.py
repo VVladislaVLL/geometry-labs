@@ -12,6 +12,9 @@ class Vector2d:
             self.x = point1
             self.y = point2
 
+    def __str__(self):
+        return '[' + str(self.x) + ', ' + str(self.y) + ']'
+
     @staticmethod
     def get_length(point1, point2):
         return sqrt((point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2)

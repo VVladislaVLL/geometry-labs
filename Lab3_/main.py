@@ -67,7 +67,6 @@ if __name__ == '__main__':
     # Draw points and polygons
     # mat, = ax.plot(points_coordinates[0], points_coordinates[1], 'o', markersize=5)
 
-
     plot_task(big_polygon, small_polygon, points_set)
     # Animate points
     # anim = FuncAnimation(fig, animate_points)
