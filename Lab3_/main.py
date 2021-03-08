@@ -17,7 +17,6 @@ def plot_task(P, Q, points):
         s += p.speed
 
     while s:
-        print('iteration')
         plt.clf()
 
         s = 0
@@ -41,8 +40,8 @@ def plot_task(P, Q, points):
         plt.gcf().canvas.flush_events()
         sleep(0.0001)
 
-    plt.ioff()  # выключение интерактивного режима
-    plt.show()  # отрисовка
+    plt.ioff()
+    plt.show()
 
 
 if __name__ == '__main__':
