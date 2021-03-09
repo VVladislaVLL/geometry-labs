@@ -83,7 +83,6 @@ def correction(d, p1, p2, p0):
         elif det < 0:
             return -4
         else:
-            # Точка на многоугольнике
             return 'на стороне'
     else:
         return d
