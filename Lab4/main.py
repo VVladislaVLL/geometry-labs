@@ -13,8 +13,6 @@ def plot_task(points):
     plt.ion()
     s = 0
     while s:
-
-
         plt.draw()
         plt.gcf().canvas.flush_events()
         sleep(0.0001)
@@ -32,7 +30,7 @@ def draw_polygon(polygon):
 
 
 if __name__ == '__main__':
-    points_set = [Point(1, 1), Point(4, 3),Point(2, 2), Point(3, 0), Point(2, 4), Point(1.5, 3), Point(3, 5)]
+    points_set = [Point(1, 1), Point(4, 3),Point(2, 2), Point(4, 5), Point(9, 3), Point(6, 4), Point(3, 0), Point(8, 1), Point(2, 4), Point(1.5, 3), Point(3, 5)]
 
     x_coords = list(map(lambda point: point.x, points_set))
     y_coords = list(map(lambda point: point.y, points_set))

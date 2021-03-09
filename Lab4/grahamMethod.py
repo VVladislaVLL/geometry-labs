@@ -2,7 +2,6 @@ from Vector2d import *
 import matplotlib.pyplot as plt
 
 
-
 def determinant(p1, p2, p0):
     a = p2.x - p1.x
     b = p2.y - p1.y
@@ -19,6 +18,7 @@ def check_point_pos(p1, p2, p0):
         return -1
     else:
         return 0
+
 
 # Callback function to sort list by polar angle value
 def sorter(p1, p0):
@@ -73,21 +73,21 @@ def graham_method(points_set):
 
     # Bypass algorithm
     k = 0
-    j = 0
+    i = 0
     length = len(set_copy)
 
     # TODO: implement second tree (when we got to the highest point)
     # In second part we need switch condition
-    while j < length:
+    while i < length:
         # TODO: switch condition in the second part of our algorithm
-        if check_point_pos(stack[k], stack[k + 1], set_copy[j]) == -1:
-            stack.pop()
-            j += 1
-            k -= 1
-        else:
-            stack.append(set_copy[j])
-            j += 1
+        if check_point_pos(stack[k], stack[k + 1], set_copy[i]) > 0:
+            stack.append(set_copy[i])
+            i += 1
             k += 1
+        else:
+            stack.pop()
+            # i += 1
+            k -= 1
 
     print('STACK:------------------------------------------------ ')
     for i in range(0, len(stack)):
