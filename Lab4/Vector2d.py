@@ -12,6 +12,9 @@ class Vector2d:
             self.x = point1
             self.y = point2
 
+    def __str__(self):
+        return '[' + str(self.x) + ', ' + str(self.y) + ']'
+
     @staticmethod
     def get_length(point1, point2):
         return sqrt((point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2)
@@ -32,11 +35,26 @@ class Vector2d:
 
     @staticmethod
     def get_vector(alpha, speed=1):
-        return Vector2d(speed * cos(alpha), speed * sin(alpha))
+        return Vector2d(speed * cos(alpha), speed * sin(alpha)), speed
+
+    @staticmethod
+    def get_angle_between(v1, v2):
+        cos_alfa = Vector2d.scalar_product(v1, v2) / (v1.get_module() * v2.get_module())
+        return acos(cos_alfa)
 
     @staticmethod
     def s_get_perpendicular(x, y):
         return Vector2d(y, -x)
+
+    @staticmethod
+    def s_mult(v, scalar):
+        new_vector = Vector2d(v.x * scalar, v.y * scalar)
+        return new_vector
+
+    @staticmethod
+    def s_minus(v1, v2):
+        new_vector = Vector2d(v1.x - v2.x, v1.y - v2.y)
+        return new_vector
 
     def sum(self, vector):
         self.x += vector.x
