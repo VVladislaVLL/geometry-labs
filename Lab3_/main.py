@@ -1,5 +1,4 @@
 #!/usr/bin/python
-import copy
 import random
 from time import sleep
 
@@ -7,13 +6,18 @@ from Point import Point
 from Vector2d import Vector2d, pi
 from graph import draw_polygon
 from matplotlib import pyplot as plt
-from utils import binary_test, angle_test, is_intersect
+from utils import binary_test, angle_test
 
 
 def reflect(p, vector_coords):
+    # Implementation of a formula
+    # new_V = 2 * scalar_prod(V, Q) / scalar_prod(Q, Q) * Q - V
+
+    # Previous direction
     v = p.direction
+
+    # Polygon side
     q = Vector2d(vector_coords[0], vector_coords[1])
-    # scal = Vector2d.scalar_product(v, q) / (q.get_module() ** 2)
     scal = Vector2d.scalar_product(v, q) / Vector2d.scalar_product(q, q)
     scal *= 2
     prod = Vector2d.s_mult(q, scal)
@@ -42,14 +46,9 @@ def plot_task(P, Q, points):
             flag_binary = binary_test(P, i.get_next_state())['flag']
             if not flag_binary:
                 prev = i.get_prev_state()
-                # i.speed = 0
                 plt.scatter(i.x, i.y)
                 coords_binary = binary_test(P, i.get_next_state())['points']
-                print(coords_binary[0], coords_binary[1])
                 new_direction = reflect(i, coords_binary)
-                print(i.direction, new_direction)
-                # prev.direction = new_direction
-                # i = prev
                 i.direction = new_direction
             elif flag_angle:
                 i.speed = 0
@@ -75,10 +74,8 @@ if __name__ == '__main__':
                      Point(7, 2), Point(6, 3)]
 
     # Our points
-    # points_set = [Point(2, 2),Point(4, 2), Point(4, 5), Point(4, 6), Point(6, 6),
-    #               Point(6, 8), Point(10, 2), Point(12, 2), Point(4, 5), Point(10, 6)]
-
-    points_set = [Point(4, 2)]
+    points_set = [Point(2, 2),Point(4, 2), Point(4, 5), Point(4, 6), Point(6, 6),
+                  Point(6, 8), Point(10, 2), Point(12, 2), Point(4, 5), Point(10, 6)]
 
     # Set points direction
     for point in points_set:
@@ -87,10 +84,5 @@ if __name__ == '__main__':
     # Get points coordinates
     points_coordinates = [[point.x for point in points_set], [point.y for point in points_set]]
 
-    # Draw points and polygons
-    # mat, = ax.plot(points_coordinates[0], points_coordinates[1], 'o', markersize=5)
-
     plot_task(big_polygon, small_polygon, points_set)
-    # Animate points
-    # anim = FuncAnimation(fig, animate_points)
     plt.show()

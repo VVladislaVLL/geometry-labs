@@ -1,5 +1,4 @@
 from math import *
-from collections import namedtuple
 from Vector2d import Vector2d
 
 

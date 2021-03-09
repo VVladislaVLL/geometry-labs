@@ -1,10 +1,4 @@
 import copy
-import string
-from math import pi
-import random
-
-
-# from Vector2d import Vector2d
 
 
 class Point:
@@ -19,8 +13,6 @@ class Point:
             x: {self.x}
             y: {self.y}
         '''
-        # direction: {self.direction}
-        # speed: {self.speed}
 
     def print(self):
         print('(' + str(self.x) + ', ' + str(self.y) + ')')
