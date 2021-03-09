@@ -37,6 +37,7 @@ def get_min_index(points_set):
         if min_value['y'] > points_set[i].y:
             min_value['y'] = points_set[i].y
             min_value['x'] = points_set[i].x
+            min_index = i
         elif min_value['y'] == points_set[i].y:
             if min_value['x'] > points_set[i].x:
                 min_value['y'] = points_set[i].y
@@ -55,6 +56,7 @@ def graham_method(points_set):
     stack = []
     min_index = get_min_index(points_set)
     print('MIN POINT ---------------------------------------------')
+    print(min_index)
     set_copy[min_index].print()
     print('MIN POINT ---------------------------------------------')
     stack.append(set_copy[min_index])
