@@ -1,5 +1,5 @@
 from math import *
-
+from collections import namedtuple
 from Vector2d import Vector2d
 
 
@@ -97,23 +97,28 @@ def binary_test(polygon, p0):
     position_p0n = check_point_pos(polygon[0], polygon[n - 1], p0)
     position_p2 = check_point_pos(polygon[0], polygon[n - 1], polygon[1])
     # если P0, Pn по разные стороны P1P2 или P0, P2 по разные стороны P1P2
-    if position_p0 * position_pn < 0 or position_p0n * position_p2 < 0:
+    if position_p0 * position_pn < 0:
         # print('Не в многоугольнике')
-        return False
+        return {'flag': False, 'points': [polygon[0], polygon[1]]}
+    elif position_p0n * position_p2 < 0:
+        return {'flag': False, 'points': [polygon[0], polygon[n - 1]]}
     start = 1
     end = n - 1
     while end - start > 1:
         sep = floor((start + end) / 2)
-        if check_point_pos(polygon[0], polygon[sep], p0) * check_point_pos(polygon[0], polygon[sep], polygon[start]) < 0:
+        if check_point_pos(polygon[0], polygon[sep], p0) * check_point_pos(polygon[0], polygon[sep],
+                                                                           polygon[start]) < 0:
             start = sep
         else:
             end = sep
-    if check_point_pos(polygon[start], polygon[end], p0) * check_point_pos(polygon[start], polygon[end], polygon[0]) < 0:
+    if check_point_pos(polygon[start], polygon[end], p0) * check_point_pos(polygon[start], polygon[end],
+                                                                           polygon[0]) < 0:
         # print('Не в многоугольнике')
-        return False
+        # return False
+        return {'flag': False, 'points': [polygon[start], polygon[end]]}
     else:
         # return 'В многоугольнике'
-        return True
+        return {'flag': True}
 
 
 def next_el(i, n):
