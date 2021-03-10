@@ -15,11 +15,10 @@ def reflect(p, vector_coords):
 
     # Previous direction
     v = p.direction
-
     # Polygon side
     q = Vector2d(vector_coords[0], vector_coords[1])
-    scal = Vector2d.scalar_product(v, q) / Vector2d.scalar_product(q, q)
-    scal *= 2
+
+    scal = 2 * (Vector2d.scalar_product(v, q) / Vector2d.scalar_product(q, q))
     prod = Vector2d.s_mult(q, scal)
     new_direction = Vector2d.s_minus(prod, v)
     return new_direction
@@ -34,9 +33,11 @@ def plot_task(P, Q, points):
     while s:
         plt.clf()
 
+        # ???
         s = 0
         for p in points:
             s += p.speed
+        # ???
 
         draw_polygon(P)
         draw_polygon(Q)
@@ -45,7 +46,6 @@ def plot_task(P, Q, points):
             flag_angle = angle_test(Q, i.get_next_state())
             flag_binary = binary_test(P, i.get_next_state())['flag']
             if not flag_binary:
-                prev = i.get_prev_state()
                 plt.scatter(i.x, i.y)
                 coords_binary = binary_test(P, i.get_next_state())['points']
                 new_direction = reflect(i, coords_binary)
@@ -58,7 +58,7 @@ def plot_task(P, Q, points):
 
         plt.draw()
         plt.gcf().canvas.flush_events()
-        sleep(0.0001)
+        sleep(0.000001)
 
     plt.ioff()
     plt.show()
@@ -77,11 +77,11 @@ if __name__ == '__main__':
     points_set = [Point(2, 2),Point(4, 2), Point(4, 5), Point(4, 6), Point(6, 6),
                   Point(6, 8), Point(10, 2), Point(12, 2), Point(4, 5), Point(10, 6)]
 
-    # Set points direction
+    # Set points direction ???
     for point in points_set:
         point.set_direction(Vector2d.get_vector(random.uniform(0, 2 * pi), 0.1))
 
-    # Get points coordinates
+    # Get points coordinates ???
     points_coordinates = [[point.x for point in points_set], [point.y for point in points_set]]
 
     plot_task(big_polygon, small_polygon, points_set)
