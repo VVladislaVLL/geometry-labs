@@ -76,10 +76,8 @@ def graham_method(points_set):
     i = 0
     length = len(set_copy)
 
-    # TODO: implement second tree (when we got to the highest point)
-    # In second part we need switch condition
     while i < length:
-        # TODO: switch condition in the second part of our algorithm
+        print('while')
         if check_point_pos(stack[k], stack[k + 1], set_copy[i]) > 0:
             stack.append(set_copy[i])
             i += 1
@@ -89,8 +87,4 @@ def graham_method(points_set):
             # i += 1
             k -= 1
 
-    print('STACK:------------------------------------------------ ')
-    for i in range(0, len(stack)):
-        stack[i].print()
-    print('STACK------------------------------------------------- ')
     return stack
