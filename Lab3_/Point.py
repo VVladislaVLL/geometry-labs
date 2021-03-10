@@ -28,10 +28,6 @@ class Point:
         self.x += self.direction.x
         self.y += self.direction.y
 
-    def prev(self):
-        self.x -= self.direction.x
-        self.y -= self.direction.y
-
     def next(self):
         self.x += self.direction.x
         self.y += self.direction.y
@@ -39,11 +35,6 @@ class Point:
     def stop(self):
         self.direction.x = 0
         self.direction.y = 0
-
-    def get_prev_state(self):
-        prev_state = copy.deepcopy(self)
-        prev_state.prev()
-        return prev_state
 
     def get_next_state(self):
         next_state = copy.deepcopy(self)
