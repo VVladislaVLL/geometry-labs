@@ -1,4 +1,5 @@
 from math import floor
+from Point import Point
 
 
 def determinant(p1, p2, p0):
@@ -15,6 +16,28 @@ def gabarit_test(p0, p_min, p_max):
     return False
 
 
+def get_min_point(polygon):
+    min_x = polygon[0].x
+    min_y = polygon[0].y
+    for i in range(0, len(polygon)):
+        if polygon[i].x < min_x:
+            min_x = polygon[i].x
+        if polygon[i].y < min_y:
+            min_y = polygon[i].y
+    return Point(min_x, min_y)
+
+
+def get_max_point(polygon):
+    max_x = polygon[0].x
+    max_y = polygon[0].y
+    for i in range(0, len(polygon)):
+        if polygon[i].x > max_x:
+            max_x = polygon[i].x
+        if polygon[i].y > max_y:
+            max_y = polygon[i].y
+    return Point(max_x, max_y)
+
+
 def check_point_pos(p1, p2, p0):
     det = determinant(p1, p2, p0)
     if det > 0:
@@ -26,9 +49,8 @@ def check_point_pos(p1, p2, p0):
 
 
 def angle_test(polygon, p0):
-    # TODO gabarit_test
-    # if gabarit_test(p0):
-    #     return False
+    if gabarit_test(p0, get_min_point(polygon), get_max_point(polygon)):
+        return False
 
     n = len(polygon)
     s = 0
