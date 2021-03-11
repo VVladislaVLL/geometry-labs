@@ -33,11 +33,9 @@ def plot_task(P, Q, points):
     while s:
         plt.clf()
 
-        # ???
         s = 0
         for p in points:
             s += p.speed
-        # ???
 
         draw_polygon(P)
         draw_polygon(Q)
@@ -74,15 +72,12 @@ if __name__ == '__main__':
                      Point(7, 2), Point(6, 3)]
 
     # Our points
-    points_set = [Point(2, 2),Point(4, 2), Point(4, 5), Point(4, 6), Point(6, 6),
+    points_set = [Point(2, 2), Point(4, 2), Point(4, 5), Point(4, 6), Point(6, 6),
                   Point(6, 8), Point(10, 2), Point(12, 2), Point(4, 5), Point(10, 6)]
 
-    # Set points direction ???
+    # Set points direction
     for point in points_set:
         point.set_direction(Vector2d.get_vector(random.uniform(0, 2 * pi), 0.1))
-
-    # Get points coordinates ???
-    points_coordinates = [[point.x for point in points_set], [point.y for point in points_set]]
 
     plot_task(big_polygon, small_polygon, points_set)
     plt.show()
