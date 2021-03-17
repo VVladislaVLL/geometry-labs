@@ -80,4 +80,3 @@ if __name__ == '__main__':
         point.set_direction(Vector2d.get_vector(random.uniform(0, 2 * pi), 0.1))
 
     plot_task(big_polygon, small_polygon, points_set)
-    plt.show()
