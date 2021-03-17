@@ -3,11 +3,11 @@
 import matplotlib.pyplot as plt
 from time import sleep
 from Point import Point
-from grahamMethod import check_point_pos, sorter, get_min_index
+from grahamMethod import check_point_pos, sorter, get_min_index, diameter_of_set
 from graph import draw_line_segment, draw_stack
 
 
-def plot_task(points_set):
+def plot_task(points_set, D):
     plt.ion()
 
     # Coordinates for scatter function
@@ -60,7 +60,7 @@ def plot_task(points_set):
         plt.scatter(x_coords, y_coords)
         plt.draw()
         plt.gcf().canvas.flush_events()
-        sleep(0.9)
+        sleep(0.1)
 
     draw_line_segment(stack[len(stack) - 1], stack[0])
     plt.ioff()
@@ -74,7 +74,10 @@ if __name__ == '__main__':
                   Point(2, 4), Point(1.5, 3), Point(7, 3), Point(10, 7),
                   Point(4, 5)]
 
-    stack = plot_task(points_set)
+    D = 5
+    stack = plot_task(points_set, D)
+    a = diameter_of_set(stack)
+    print(a['start'], a['end'])
     plt.show()
 
 
