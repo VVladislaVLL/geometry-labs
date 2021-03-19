@@ -24,39 +24,40 @@ def reflect(p, vector_coords):
     return new_direction
 
 
-def plot_task(P, Q, points):
+def plot_task(points_set, S = 20):
     plt.ion()
-    s = 0
-    for p in points:
-        s += p.speed
+    # s = 0
+    # for p in points:
+    #     s += p.speed
+    #
+    # while s:
+    #     plt.clf()
+    #
+    #     s = 0
+    #     for p in points:
+    #         s += p.speed
 
-    while s:
-        plt.clf()
+    CH = quick_hull(points_set)
+    draw_polygon(CH)
+        # draw_polygon(Q)
 
-        s = 0
-        for p in points:
-            s += p.speed
+        # for i in points:
+        #     flag_angle = angle_test(Q, i.get_next_state())
+        #     flag_binary = binary_test(P, i.get_next_state())['flag']
+        #     if not flag_binary:
+        #         plt.scatter(i.x, i.y)
+        #         coords_binary = binary_test(P, i.get_next_state())['points']
+        #         new_direction = reflect(i, coords_binary)
+        #         i.direction = new_direction
+        #     elif flag_angle:
+        #         i.speed = 0
+        #     else:
+        #         i.move()
+        #         plt.scatter(i.x, i.y)
 
-        draw_polygon(P)
-        draw_polygon(Q)
-
-        for i in points:
-            flag_angle = angle_test(Q, i.get_next_state())
-            flag_binary = binary_test(P, i.get_next_state())['flag']
-            if not flag_binary:
-                plt.scatter(i.x, i.y)
-                coords_binary = binary_test(P, i.get_next_state())['points']
-                new_direction = reflect(i, coords_binary)
-                i.direction = new_direction
-            elif flag_angle:
-                i.speed = 0
-            else:
-                i.move()
-                plt.scatter(i.x, i.y)
-
-        plt.draw()
-        plt.gcf().canvas.flush_events()
-        sleep(0.000001)
+        # plt.draw()
+        # plt.gcf().canvas.flush_events()
+        # sleep(0.000001)
 
     plt.ioff()
     plt.show()
@@ -68,10 +69,9 @@ if __name__ == '__main__':
                   Point(9, 3), Point(6, 4), Point(3, 0), Point(8, 1),
                   Point(2, 4), Point(1.5, 3), Point(7, 3), Point(10, 7),
                   Point(4, 5)]
-    quick_hull(points_set)
 
     # Set points direction
-    # for point in points_set:
-    #     point.set_direction(Vector2d.get_vector(random.uniform(0, 2 * pi), 0.1))
-    #
-    # plot_task(points_set)
+    for point in points_set:
+        point.set_direction(Vector2d.get_vector(random.uniform(0, 2 * pi), 0.1))
+
+    plot_task(points_set)

@@ -1,5 +1,6 @@
 from math import floor
 from Point import Point
+import itertools
 
 
 def determinant(p1, p2, p0):
@@ -27,20 +28,14 @@ def get_max_point(points_set):
 
 
 def check_point_pos(p1, p2, p0):
-    det = determinant(p1, p2, p0)
-    if det > 0:
-        return 1
-    elif det < 0:
-        return -1
-    else:
-        return 0
+    return determinant(p1, p2, p0)
 
 
 def next_el(i, n):
     return i + 1 if i < n - 1 else 0
 
 
-def f(P, pl, pr):
+def f(P, pl, pr, CH):
     if P == []:
         return
     # Находим точку с max площадью PlPrPi
@@ -56,6 +51,12 @@ def f(P, pl, pr):
     # Точки правее PmPl
     P2 = [p for p in P if check_point_pos(pm, pl, p) < 0]
 
+    f(P1, pm, pr, CH)
+    CH.append(pm)
+    f(P2, pl, pm, CH)
+
+    return CH
+
 
 def quick_hull(points_set):
     CH = []
@@ -65,11 +66,19 @@ def quick_hull(points_set):
     # строим множества точек находящихся правее и левее прямой PrPl
     L = [p for p in points_set if check_point_pos(pl, pr, p) > 0]
     R = [p for p in points_set if check_point_pos(pl, pr, p) < 0]
+
     # оболочка для L
-    # f(L, pl, pr)
-    # CH.append()
+    CHL = f(L, pl, pr, [])
     # оболочка для R
-    # f(R, pl, pr)
-    # CH.append()
-    # CH - итоговая оболочка
-    # return CH
+    CHR = f(R, pl, pr, [])
+    # for p in CHR:
+    #     print(p)
+
+    CH.append(pl)
+    for p in CHR:
+        CH.append(p)
+    CH.append(pr)
+    for p in CHL:
+        CH.append(p)
+
+    return CH
