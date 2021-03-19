@@ -6,58 +6,44 @@ from Point import Point
 from Vector2d import Vector2d, pi
 from graph import draw_polygon
 from matplotlib import pyplot as plt
-from utils import quick_hull
+from utils import quick_hull, perimeter
 
 
-def reflect(p, vector_coords):
-    # Implementation of a formula
-    # new_V = 2 * scalar_prod(V, Q) / scalar_prod(Q, Q) * Q - V
-
-    # Previous direction
-    v = p.direction
-    # Polygon side
-    q = Vector2d(vector_coords[0], vector_coords[1])
-
-    scal = 2 * (Vector2d.scalar_product(v, q) / Vector2d.scalar_product(q, q))
-    prod = Vector2d.s_mult(q, scal)
-    new_direction = Vector2d.s_minus(prod, v)
+def reflect(p):
+    new_direction = [-p.direction[0], -p.direction[1]]
     return new_direction
 
 
-def plot_task(points_set, S = 20):
+def plot_task(points_set, S=45):
     plt.ion()
-    # s = 0
-    # for p in points:
-    #     s += p.speed
-    #
-    # while s:
-    #     plt.clf()
-    #
-    #     s = 0
-    #     for p in points:
-    #         s += p.speed
+    s = 0
+    for p in points_set:
+        s += p.speed
 
-    CH = quick_hull(points_set)
-    draw_polygon(CH)
-        # draw_polygon(Q)
+    while s:
+        plt.clf()
 
-        # for i in points:
-        #     flag_angle = angle_test(Q, i.get_next_state())
-        #     flag_binary = binary_test(P, i.get_next_state())['flag']
-        #     if not flag_binary:
-        #         plt.scatter(i.x, i.y)
-        #         coords_binary = binary_test(P, i.get_next_state())['points']
-        #         new_direction = reflect(i, coords_binary)
-        #         i.direction = new_direction
-        #     elif flag_angle:
-        #         i.speed = 0
-        #     else:
-        #         i.move()
-        #         plt.scatter(i.x, i.y)
+        s = 0
+        for p in points_set:
+            s += p.speed
 
-        # plt.draw()
-        # plt.gcf().canvas.flush_events()
-        # sleep(0.000001)
+        CH = quick_hull(points_set)
+        draw_polygon(CH)
+        CH_S = perimeter(CH)
+
+        # TODO: иногда вылетает ошибка 'Point' object has no attribute 'direction'
+        if CH_S > S:
+            for p in CH:
+                plt.scatter(p.x, p.y)
+                p.direction = reflect(p)
+        else:
+            for p in points_set:
+                p.move()
+                plt.scatter(p.x, p.y)
+
+        plt.draw()
+        plt.gcf().canvas.flush_events()
+        sleep(0.01)
 
     plt.ioff()
     plt.show()
@@ -69,6 +55,10 @@ if __name__ == '__main__':
                   Point(9, 3), Point(6, 4), Point(3, 0), Point(8, 1),
                   Point(2, 4), Point(1.5, 3), Point(7, 3), Point(10, 7),
                   Point(4, 5)]
+
+    # a = quick_hull(points_set)
+    # for i in a:
+    #     print(i)
 
     # Set points direction
     for point in points_set:

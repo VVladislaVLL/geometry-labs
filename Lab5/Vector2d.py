@@ -16,6 +16,10 @@ class Vector2d:
         return '[' + str(self.x) + ', ' + str(self.y) + ']'
 
     @staticmethod
+    def get_length(p1, p2):
+        return sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2)
+
+    @staticmethod
     def scalar_product(v1, v2):
         return v1.x * v2.x + v1.y * v2.y
 

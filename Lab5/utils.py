@@ -1,6 +1,5 @@
-from math import floor
 from Point import Point
-import itertools
+from Vector2d import Vector2d
 
 
 def determinant(p1, p2, p0):
@@ -11,7 +10,7 @@ def determinant(p1, p2, p0):
     return a * d - b * c
 
 
-def get_min_point(points_set):
+def get_left_point(points_set):
     min = points_set[0]
     for i in range(1, len(points_set)):
         if points_set[i].x < min.x:
@@ -19,7 +18,7 @@ def get_min_point(points_set):
     return Point(min.x, min.y)
 
 
-def get_max_point(points_set):
+def get_right_point(points_set):
     max = points_set[0]
     for i in range(1, len(points_set)):
         if points_set[i].x > max.x:
@@ -35,6 +34,7 @@ def next_el(i, n):
     return i + 1 if i < n - 1 else 0
 
 
+# TODO: пофиксить алгоритм, чтобы тупые точки не добавлялись
 def f(P, pl, pr, CH):
     if P == []:
         return
@@ -61,8 +61,8 @@ def f(P, pl, pr, CH):
 def quick_hull(points_set):
     CH = []
     # находим левую и правую точку множества
-    pr = get_max_point(points_set)
-    pl = get_min_point(points_set)
+    pr = get_right_point(points_set)
+    pl = get_left_point(points_set)
     # строим множества точек находящихся правее и левее прямой PrPl
     L = [p for p in points_set if check_point_pos(pl, pr, p) > 0]
     R = [p for p in points_set if check_point_pos(pl, pr, p) < 0]
@@ -82,3 +82,11 @@ def quick_hull(points_set):
         CH.append(p)
 
     return CH
+
+
+def perimeter(polygon):
+    s = 0
+    n = len(polygon)
+    for i in range(0, n):
+        s += Vector2d.get_length(polygon[i], polygon[next_el(i, n)])
+    return round(s)
