@@ -1,80 +1,77 @@
 #!/usr/bin/python
-
-import matplotlib.pyplot as plt
+import random
 from time import sleep
+
 from Point import Point
-from grahamMethod import check_point_pos, sorter, get_min_index
-from graph import draw_line_segment, draw_stack
+from Vector2d import Vector2d, pi
+from graph import draw_polygon
+from matplotlib import pyplot as plt
+from utils import quick_hull
 
 
-def plot_task(points_set):
+def reflect(p, vector_coords):
+    # Implementation of a formula
+    # new_V = 2 * scalar_prod(V, Q) / scalar_prod(Q, Q) * Q - V
+
+    # Previous direction
+    v = p.direction
+    # Polygon side
+    q = Vector2d(vector_coords[0], vector_coords[1])
+
+    scal = 2 * (Vector2d.scalar_product(v, q) / Vector2d.scalar_product(q, q))
+    prod = Vector2d.s_mult(q, scal)
+    new_direction = Vector2d.s_minus(prod, v)
+    return new_direction
+
+
+def plot_task(P, Q, points):
     plt.ion()
+    s = 0
+    for p in points:
+        s += p.speed
 
-    # Coordinates for scatter function
-    x_coords = list(map(lambda point: point.x, points_set))
-    y_coords = list(map(lambda point: point.y, points_set))
-
-    # Copy list
-    set_copy = points_set[:]
-    stack = []
-
-    # Find Point with min y value
-    min_index = get_min_index(points_set)
-
-    # Push this Point in stack
-    stack.append(set_copy[min_index])
-
-    # Delete this Point from the list
-    del set_copy[min_index]
-
-    # Sort list by polar angle
-    set_copy.sort(key=lambda point: sorter(point, stack[0]))
-
-    # Push first Point in stack
-    stack.append(set_copy[0])
-
-    # Delete this Point from list
-    del set_copy[0]
-
-    # Bypass algorithm
-    k = 0
-    i = 0
-
-    length = len(set_copy)
-
-    # Algorithm
-    while i < length:
+    while s:
         plt.clf()
-        if check_point_pos(stack[k], stack[k + 1], set_copy[i]) > 0:
-            stack.append(set_copy[i])
-            i += 1
-            k += 1
-        else:
-            stack.pop()
-            k -= 1
 
-        # Draw current state of stack
-        draw_stack(stack)
+        s = 0
+        for p in points:
+            s += p.speed
 
-        # Draw points set
-        plt.scatter(x_coords, y_coords)
+        draw_polygon(P)
+        draw_polygon(Q)
+
+        for i in points:
+            flag_angle = angle_test(Q, i.get_next_state())
+            flag_binary = binary_test(P, i.get_next_state())['flag']
+            if not flag_binary:
+                plt.scatter(i.x, i.y)
+                coords_binary = binary_test(P, i.get_next_state())['points']
+                new_direction = reflect(i, coords_binary)
+                i.direction = new_direction
+            elif flag_angle:
+                i.speed = 0
+            else:
+                i.move()
+                plt.scatter(i.x, i.y)
+
         plt.draw()
         plt.gcf().canvas.flush_events()
-        sleep(0.9)
+        sleep(0.000001)
 
-    draw_line_segment(stack[len(stack) - 1], stack[0])
     plt.ioff()
     plt.show()
-    return stack
 
 
 if __name__ == '__main__':
-    points_set = [Point(1, 1), Point(4, 3),Point(2, 2), Point(4, 5),
+
+    points_set = [Point(1, 1), Point(4, 3), Point(2, 2), Point(4, 5),
                   Point(9, 3), Point(6, 4), Point(3, 0), Point(8, 1),
                   Point(2, 4), Point(1.5, 3), Point(7, 3), Point(10, 7),
                   Point(4, 5)]
+    quick_hull(points_set)
 
-    stack = plot_task(points_set)
-    plt.show()
-
-
+    # Set points direction
+    # for point in points_set:
+    #     point.set_direction(Vector2d.get_vector(random.uniform(0, 2 * pi), 0.1))
+    #
+    # plot_task(points_set)
