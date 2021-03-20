@@ -37,6 +37,7 @@ def next_el(i, n):
 
 
 # TODO: пофиксить алгоритм, чтобы тупые точки не добавлялись
+# Вроде всё работает, мб я тупой не заметил
 def f(P, pl, pr, CH):
     if P == []:
         return
@@ -69,17 +70,11 @@ def quick_hull(points_set):
     L = list(filter(lambda p: check_point_pos(pl, pr, p) > 0, points_set))
     R = list(filter(lambda p: check_point_pos(pl, pr, p) < 0, points_set))
 
-
     # оболочка для L
     CHL = f(L, pl, pr, [])
-    # CHL.append(pl)
-    # CHL.insert(0, pr)
 
     # оболочка для R
-    # CHR = f(R, pl, pr, [])
     CHR = f(R, pr, pl, [])
-    # CHR.append(pl)
-    # CHR.insert(0, pr)
 
     CH.append(pl)
     for p in CHR:

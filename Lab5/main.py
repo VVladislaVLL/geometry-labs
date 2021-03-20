@@ -9,41 +9,30 @@ from matplotlib import pyplot as plt
 from utils import quick_hull, perimeter
 
 
-def plot_task(points_set, S=45):
+def plot_task(points_set, S=40):
     plt.ion()
-    s = 0
-    for p in points_set:
-        s += p.speed
+    flag = True
 
-
-    while s:
+    while flag:
         plt.clf()
-
-        s = 0
-        for p in points_set:
-            s += p.speed
 
         CH = quick_hull(points_set)
         draw_polygon(CH)
         CH_S = perimeter(CH)
 
         if CH_S > S:
+            # Вроде ошибок явных не видно. Только я не знаю как обрабатывать момент, когда константа заведомо меньше
+            # чем периметр. Тогда начинается просто дрочево
             # TODO: ошибка в этот момент, бесконечный цикл
             for p in CH:
-                # plt.scatter(p.x, p.y)
                 p.reflect_direction()
-                # print(p)
-        else:
-            for p in points_set:
-                p.move()
-                # plt.scatter(p.x, p.y)
-
         for p in points_set:
+            p.move()
             plt.scatter(p.x, p.y)
 
         plt.draw()
         plt.gcf().canvas.flush_events()
-        sleep(0.01)
+        sleep(0.0001)
 
     plt.ioff()
     plt.show()
