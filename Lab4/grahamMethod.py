@@ -2,6 +2,69 @@ from Vector2d import *
 import matplotlib.pyplot as plt
 
 
+def diameter_of_set(stack):
+    n = len(stack)
+    start = 0
+    maxs = 0
+    # находим точку start
+    for j in range(1, n - 2):
+        square1 = abs(determinant(stack[n - 1], stack[0], stack[j]))
+        # square2 = abs(determinant(stack[n - 1], stack[0], stack[j + 1]))
+        if square1 >= maxs:
+            start = j
+            maxs = square1
+
+    d = 0
+    i = 0
+    while True:
+        # находим точку end
+        j = start
+        end = 0
+        square1 = abs(determinant(stack[i], stack[i + 1], stack[j]))
+        square2 = abs(determinant(stack[i], stack[i + 1], stack[j + 1]))
+        while not square1 > square2:
+            print(i, j)
+            j += 1
+            if end > n - 1:
+                return {'start': start, 'end': end}
+                # break
+            square1 = abs(determinant(stack[i], stack[i + 1], stack[j]))
+            square2 = abs(determinant(stack[i], stack[i + 1], stack[j + 1]))
+        end = j
+
+        # находим максимальное расстояние между точками
+        for t in range(start, end + 1):
+            # print(i, t)
+            if Vector2d.get_length(stack[i], stack[t]) > d:
+                d = Vector2d.get_length(stack[i], stack[t])
+
+        start = end
+        i += 1
+    return {'start': start, 'end': end}
+
+
+def jarvis(points_set):
+    # Copy list
+    set_copy = points_set[:]
+    stack = []
+
+    # Find Point with min y value
+    min_index = get_min_index(points_set)
+
+    # Push this Point in stack
+    stack.append(set_copy[min_index])
+
+    # Delete this Point from the list
+    del set_copy[min_index]
+
+    k = 0
+    i = 0
+    length = len(set_copy)
+
+    while i < length:
+        p =
+
+
 def determinant(p1, p2, p0):
     a = p2.x - p1.x
     b = p2.y - p1.y
@@ -83,7 +146,6 @@ def graham_method(points_set):
             k += 1
         else:
             stack.pop()
-            # i += 1
             k -= 1
 
     return stack
