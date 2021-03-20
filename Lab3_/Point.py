@@ -12,7 +12,7 @@ class Point:
         Point:
             x: {self.x}
             y: {self.y}
-        '''
+py        '''
 
     def print(self):
         print('(' + str(self.x) + ', ' + str(self.y) + ')')

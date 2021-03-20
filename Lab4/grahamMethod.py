@@ -22,8 +22,7 @@ def check_point_pos(p1, p2, p0):
 
 # Callback function to sort list by polar angle value
 def sorter(p1, p0):
-    value1 = pi / 2 if p1.x == p0.x \
-        else atan((p1.y - p0.y) / abs(p0.x - p1.x))
+    value1 = pi / 2 if p1.x == p0.x else atan((p1.y - p0.y) / abs(p0.x - p1.x))
     if p1.x < p0.x:
         value1 = pi - value1
     return value1, Vector2d.get_length(p1, p0)
