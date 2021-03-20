@@ -76,7 +76,8 @@ def quick_hull(points_set):
     # CHL.insert(0, pr)
 
     # оболочка для R
-    CHR = f(R, pl, pr, [])
+    # CHR = f(R, pl, pr, [])
+    CHR = f(R, pr, pl, [])
     # CHR.append(pl)
     # CHR.insert(0, pr)
 
