@@ -61,8 +61,8 @@ def jarvis(points_set):
     i = 0
     length = len(set_copy)
 
-    while i < length:
-        p =
+    # while i < length:
+        # p =
 
 
 def determinant(p1, p2, p0):

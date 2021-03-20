@@ -15,7 +15,8 @@ def get_left_point(points_set):
     for i in range(1, len(points_set)):
         if points_set[i].x < min.x:
             min = points_set[i]
-    return Point(min.x, min.y)
+    # return Point(min.x, min.y)
+    return min
 
 
 def get_right_point(points_set):
@@ -23,7 +24,8 @@ def get_right_point(points_set):
     for i in range(1, len(points_set)):
         if points_set[i].x > max.x:
             max = points_set[i]
-    return Point(max.x, max.y)
+    # return Point(max.x, max.y)
+    return max
 
 
 def check_point_pos(p1, p2, p0):
@@ -64,15 +66,19 @@ def quick_hull(points_set):
     pr = get_right_point(points_set)
     pl = get_left_point(points_set)
     # строим множества точек находящихся правее и левее прямой PrPl
-    L = [p for p in points_set if check_point_pos(pl, pr, p) > 0]
-    R = [p for p in points_set if check_point_pos(pl, pr, p) < 0]
+    L = list(filter(lambda p: check_point_pos(pl, pr, p) > 0, points_set))
+    R = list(filter(lambda p: check_point_pos(pl, pr, p) < 0, points_set))
+
 
     # оболочка для L
     CHL = f(L, pl, pr, [])
+    # CHL.append(pl)
+    # CHL.insert(0, pr)
+
     # оболочка для R
     CHR = f(R, pl, pr, [])
-    # for p in CHR:
-    #     print(p)
+    # CHR.append(pl)
+    # CHR.insert(0, pr)
 
     CH.append(pl)
     for p in CHR:
@@ -82,6 +88,8 @@ def quick_hull(points_set):
         CH.append(p)
 
     return CH
+    # return CHL
+    # return CHR
 
 
 def perimeter(polygon):
