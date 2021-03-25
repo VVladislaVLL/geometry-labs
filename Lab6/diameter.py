@@ -1,4 +1,3 @@
-from jarvis import jarvis_method
 from utils.utils import *
 
 
@@ -13,7 +12,6 @@ def diameter_of_set(stack):
     # находим точку start
     for j in range(1, n - 2):
         square1 = abs(determinant(stack[n - 1], stack[0], stack[j]))
-        # square2 = abs(determinant(stack[n - 1], stack[0], stack[j + 1]))
         if square1 >= maxs:
             start = j
             maxs = square1
@@ -28,7 +26,7 @@ def diameter_of_set(stack):
         square2 = abs(determinant(stack[i], stack[i + 1], stack[j + 1]))
         while square1 < square2:
             j += 1
-            square1 = abs(determinant(stack[i], stack[i + 1], stack[j if j  < n else 0]))
+            square1 = abs(determinant(stack[i], stack[i + 1], stack[j if j < n else 0]))
             square2 = abs(determinant(stack[i], stack[i + 1], stack[j + 1 if j + 1 < n else 0]))
 
         end = j
