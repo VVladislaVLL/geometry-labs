@@ -21,9 +21,6 @@ def plot_task(points_set, S=40):
         CH_S = perimeter(CH)
 
         if CH_S > S:
-            # Вроде ошибок явных не видно. Только я не знаю как обрабатывать момент, когда константа заведомо меньше
-            # чем периметр. Тогда начинается просто дрочево
-            # TODO: ошибка в этот момент, бесконечный цикл
             for p in CH:
                 p.reflect_direction()
         for p in points_set:
@@ -49,10 +46,6 @@ if __name__ == '__main__':
     for point in points_set:
         point.set_direction(Vector2d.get_vector(random.uniform(0, 2 * pi), 0.1))
 
-    # CH = quick_hull(points_set)
-    # draw_polygon(CH)
-    # for p in points_set:
-    #     plt.scatter(p.x, p.y)
-    # plt.show()
-
     plot_task(points_set)
+
+    plt.show()

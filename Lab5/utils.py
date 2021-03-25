@@ -1,4 +1,3 @@
-from Point import Point
 from Vector2d import Vector2d
 
 
@@ -15,7 +14,6 @@ def get_left_point(points_set):
     for i in range(1, len(points_set)):
         if points_set[i].x < min.x:
             min = points_set[i]
-    # return Point(min.x, min.y)
     return min
 
 
@@ -24,7 +22,6 @@ def get_right_point(points_set):
     for i in range(1, len(points_set)):
         if points_set[i].x > max.x:
             max = points_set[i]
-    # return Point(max.x, max.y)
     return max
 
 
@@ -36,8 +33,6 @@ def next_el(i, n):
     return i + 1 if i < n - 1 else 0
 
 
-# TODO: пофиксить алгоритм, чтобы тупые точки не добавлялись
-# Вроде всё работает, мб я тупой не заметил
 def f(P, pl, pr, CH):
     if P == []:
         return
@@ -84,8 +79,6 @@ def quick_hull(points_set):
         CH.append(p)
 
     return CH
-    # return CHL
-    # return CHR
 
 
 def perimeter(polygon):

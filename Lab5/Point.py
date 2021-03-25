@@ -45,5 +45,3 @@ class Point:
     def reflect_direction(self):
         self.direction.x = -self.direction.x
         self.direction.y = -self.direction.y
-
-
