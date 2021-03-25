@@ -1,6 +1,6 @@
 from math import *
 
-from Point import Point
+from classes.Point import Point
 
 
 class Vector2d:

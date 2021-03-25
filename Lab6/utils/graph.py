@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+
 def draw_polygon(polygon):
     cor_x = list(map(lambda p: p.x, polygon))
     cor_y = list(map(lambda p: p.y, polygon))
