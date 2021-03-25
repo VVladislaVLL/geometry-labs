@@ -5,13 +5,14 @@ class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.velocity = 0
 
     def __str__(self):
         return f'''
         Point:
             x: {self.x}
             y: {self.y}
+            direction x: {self.direction.x}
+            direction y: {self.direction.y}
         '''
 
     def print(self):
@@ -28,10 +29,6 @@ class Point:
         self.x += self.direction.x
         self.y += self.direction.y
 
-    def prev(self):
-        self.x -= self.direction.x
-        self.y -= self.direction.y
-
     def next(self):
         self.x += self.direction.x
         self.y += self.direction.y
@@ -40,12 +37,13 @@ class Point:
         self.direction.x = 0
         self.direction.y = 0
 
-    def get_prev_state(self):
-        prev_state = copy.deepcopy(self)
-        prev_state.prev()
-        return prev_state
-
     def get_next_state(self):
         next_state = copy.deepcopy(self)
         next_state.next()
         return next_state
+
+    def reflect_direction(self):
+        self.direction.x = -self.direction.x
+        self.direction.y = -self.direction.y
+
+
