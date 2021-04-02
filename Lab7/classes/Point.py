@@ -15,6 +15,14 @@ class Point:
             direction y: {self.direction.y}
         '''
 
+    def __eq__(self, other):
+        if not isinstance(other, Point):
+            return NotImplemented
+        return self.x == other.x and self.y == other.y
+
+    def __hash__(self):
+        return hash((self.x, self.y))
+
     @staticmethod
     def get_random_point():
         return Point(1, 1)
