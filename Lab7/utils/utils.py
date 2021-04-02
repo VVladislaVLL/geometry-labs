@@ -1,4 +1,8 @@
-from classes.Vector2d import *
+from classes.Vector2d import Vector2d
+
+
+def next_el(i, n):
+    return i + 1 if i < n - 1 else 0
 
 
 def determinant(p1, p2, p0):
@@ -19,28 +23,26 @@ def check_point_pos(p1, p2, p0):
         return 0
 
 
-# Callback function to sort list by polar angle value
-def sorter(p1, p0):
-    value1 = pi / 2 if p1.x == p0.x else atan((p1.y - p0.y) / abs(p0.x - p1.x))
-    if p1.x < p0.x:
-        value1 = pi - value1
-    return value1, Vector2d.get_length(p1, p0)
-
-
-def get_min_index(points_set):
-    min_index = 0
-    min_value = {'y': points_set[0].y, 'x': points_set[0].x}
-    # Find min value with y coordinate
-    # (but if there are more then 1 point with such value of coord y compare Points by x coord)
-    for i in range(0, len(points_set)):
-        if min_value['y'] > points_set[i].y:
-            min_value['y'] = points_set[i].y
-            min_value['x'] = points_set[i].x
-            min_index = i
-        elif min_value['y'] == points_set[i].y:
-            if min_value['x'] > points_set[i].x:
-                min_value['y'] = points_set[i].y
-                min_value['x'] = points_set[i].x
-                min_index = i
-
-    return min_index
+def check_triangle(p1, p2, p3):
+    if p1 == p2 == p3:
+        return p1
+    elif not p1 == p2 and not p1 == p3 and not p2 == p3:
+        pos = check_point_pos(p1, p2, p3)
+        if pos > 0:
+            return [p1, p2, p3]
+        elif pos < 0:
+            return [p1, p3, p2]
+        elif pos == 0:
+            if Vector2d.scalar_product(Vector2d(p3, p1), Vector2d(p3, p2)) < 0:
+                return [p1, p2]
+            elif Vector2d.scalar_product(Vector2d(p1, p2), Vector2d(p1, p3)) < 0:
+                return [p2, p3]
+            elif Vector2d.scalar_product(Vector2d(p2, p1), Vector2d(p2, p3)) < 0:
+                return [p1, p3]
+    else:
+        if p1 == p2:
+            return [p1, p3]
+        elif p1 == p3:
+            return [p1, p2]
+        elif p2 == p3:
+            return [p1, p2]

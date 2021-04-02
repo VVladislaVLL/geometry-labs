@@ -1,5 +1,9 @@
 import matplotlib.pyplot as plt
 
+def draw_points(points):
+    for p in points:
+        plt.scatter(p.x, p.y)
+
 
 def draw_polygon(polygon):
     cor_x = list(map(lambda p: p.x, polygon))

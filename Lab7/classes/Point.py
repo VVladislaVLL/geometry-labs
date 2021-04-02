@@ -11,8 +11,6 @@ class Point:
         Point:
             x: {self.x}
             y: {self.y}
-            direction x: {self.direction.x}
-            direction y: {self.direction.y}
         '''
 
     def __eq__(self, other):
