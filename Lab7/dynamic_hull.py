@@ -72,7 +72,9 @@ def dynamic_hull(point, CH):
 
     if n >= 3:
         S = []
-        for i in range(0, n):
+        # TODO: я поменял тут for i in range(0, n - 1): на for i in range(0, n - 1):
+        #  из-за этого пропало то пересечение
+        for i in range(0, n - 1):
             # следующая точка оболочки для текущей
             next_point = next_el(i, n)
             # если сторона оболочки "видна" из добавленной точки добавляем сторону
@@ -83,7 +85,7 @@ def dynamic_hull(point, CH):
                     S.append(CH[next_point])
         # если множество видимых сторон не пусто, оставляем первую и последнюю
         # вершины из мн-ва и между ними добавляем добавленную точку
-        if not S == []:
+        if not len(S) == 0:
             S = [S[0], point, S[len(S) - 1]]
             # меняем оболочку
             i = CH.index(S[0])

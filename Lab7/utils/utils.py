@@ -2,7 +2,8 @@ from classes.Vector2d import Vector2d
 
 
 def next_el(i, n):
-    return i + 1 if i < n - 1 else 0
+    # return i + 1 if i < n - 1 else 0
+    return (i + 1) % n
 
 
 def determinant(p1, p2, p0):

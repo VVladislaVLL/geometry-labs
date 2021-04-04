@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 
 def draw_points(points):
-    for p in points:
-        plt.scatter(p.x, p.y)
+    plt.scatter(list(map(lambda p: p.x ,points)), list(map(lambda p: p.y, points)))
 
 
 def draw_polygon(polygon):
