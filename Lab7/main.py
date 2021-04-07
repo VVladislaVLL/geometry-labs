@@ -3,8 +3,7 @@
 import matplotlib.pyplot as plt
 from time import sleep
 from classes.Point import Point
-from dynamic_hull import *
-from classes.Vector2d import Vector2d, pi
+from dynamic_hull import dynamic_hull
 from utils.graph import draw_polygon, draw_points
 
 
@@ -20,9 +19,9 @@ def plot_task(points_set):
         Points.append(points_set[i])
         draw_points(Points)
         CH = dynamic_hull(points_set[i], CH)
-        print("Hull")
-        for p in CH:
-            print(p)
+        # print("Hull")
+        # for p in CH:
+        #     print(p)
         draw_polygon(CH)
 
         plt.draw()
