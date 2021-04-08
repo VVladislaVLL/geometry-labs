@@ -21,22 +21,25 @@ def dynamic_hull(point, CH):
             # следующая точка оболочки для текущей
             next_point = next_el(i, n)
             # если сторона оболочки "видна" из добавленной точки добавляем индексы вершин стороны
-            if check_point_pos(CH[i], CH[next_point], point) <= 0:
+            if check_point_pos(CH[i], CH[next_point], point) < 0:
                 if S.count(i) == 0:
                     S.append(i)
-                if S.count(next_point) == 0:
+                if S.count(next_point) == 0 or S[0] == next_point:
                     S.append(next_point)
-        # если множество видимых сторон не пусто, оставляем первую и последнюю
-        # вершины из мн-ва и между ними добавляем добавленную точку
         s = len(S)
         if not s == 0:
-            # индекс вставки точки в выпуклую оболочку
-            insert_index = S[0] + 1
-            # если на концах множества числа по расположены по убыванию
-            if S[0] > S[s - 1]:
-                S[0], S[s - 1] = S[s - 1], S[0]
+            # если конечные эл-ты множ-ва вершин сторон, "видимых из точки", равны
+            # то надо удалить эту вершину в оболочке и на её место вставить точку
+            if S[0] == S[s - 1]:
+                start_index = 0
+                s = 2
+                insert_index = S[0]
+            # иначе удаляем все элементы между первым и последним и вставляем между ними точку
+            else:
+                insert_index = S[0] + 1
+                start_index = 1
             # меняем оболочку
-            for i in range(1, s - 1):
+            for i in range(start_index, s - 1):
                 CH.remove(CH[S[i]])
             CH.insert(insert_index, point)
 
