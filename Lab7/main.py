@@ -10,18 +10,14 @@ from utils.graph import draw_polygon, draw_points
 def plot_task(points_set):
     plt.ion()
 
-    length = len(points_set)
     Points = []
     CH = []
 
-    for i in range(0, length):
+    for i in range(0, len(points_set)):
         plt.clf()
         Points.append(points_set[i])
         draw_points(Points)
         CH = dynamic_hull(points_set[i], CH)
-        print("Hull")
-        for p in CH:
-            print(p)
         draw_polygon(CH)
 
         plt.draw()
@@ -38,7 +34,7 @@ if __name__ == '__main__':
                   Point(2, 4), Point(1.5, 3), Point(7, 3), Point(10, 7),
                   Point(4, 5)]
 
-    # points_set = [Point(3, 2), Point(5, 3), Point(8, 2),Point(3, 3), Point(1, 4), Point(7, 8), Point(5, 0), Point(1, 1), ]
+    # points_set = [Point(3, 2), Point(5, 3), Point(8, 2),Point(3, 3), Point(1, 4), Point(7, 8), Point(5, 0), Point(1, 1) ]
 
     plot_task(points_set)
 
