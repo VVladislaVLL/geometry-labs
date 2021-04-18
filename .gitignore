@@ -24,6 +24,10 @@
 /Lab6/__pycache__
 /Lab6/.idea
 
-/Lab7/venv
-/Lab7/__pycache__
-/Lab7/.idea
+./Lab7/venv
+./Lab7/__pycache__
+./Lab7/.idea
+
+./Lab8/venv
+./Lab8/__pycache__
+./Lab8/.idea
