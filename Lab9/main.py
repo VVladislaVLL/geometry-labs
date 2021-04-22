@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 from classes.Point import Point
 from classes.Vector2d import Vector2d, pi
 from divideAndRule2 import divide_and_rule, divide_and_rule
+from utils.binary import binary_test
 from utils.graph import draw_polygon
 
 
@@ -23,11 +24,6 @@ def reflect(p, vector_coords):
 
 
 def plot_task(rectangle, points):
-    # TODO: Алгоритм рабочий, надеюсь, что это вообще тот, который нам нужен))
-    #  Но я не сделал только отражение от границ прямоугольника
-    #  И чтобы точки отображались как круги(но воообще это не должно быть проблемой)
-    #  Самая тупая часть - это сделать отражние от стен, хз, как это делать, единсвенный вариант,
-    #  который я вижу - это взять алгоритм из 3 лабы
     MIN_DISTANSE = 0.2
     plt.ion()
     s = 1
@@ -39,6 +35,15 @@ def plot_task(rectangle, points):
         if clash_flag[1] <= MIN_DISTANSE:
             clash_flag[0][0].reflect_direction()
             clash_flag[0][1].reflect_direction()
+
+
+        for i in points:
+            flag_binary = binary_test(rectangle, i.get_next_state_circle(MIN_DISTANSE / 2))['flag']
+            if not flag_binary:
+                plt.scatter(i.x, i.y)
+                coords_binary = binary_test(rectangle, i.get_next_state_circle(MIN_DISTANSE / 2))['points']
+                new_direction = reflect(i, coords_binary)
+                i.direction = new_direction
 
         for i in points:
                 i.move()

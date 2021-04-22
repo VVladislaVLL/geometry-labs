@@ -56,4 +56,11 @@ class Point:
         self.direction.x = -self.direction.x
         self.direction.y = -self.direction.y
 
+    def next_circle(self, radius):
+        self.x += (self.direction.x + radius)
+        self.y += (self.direction.y + radius)
 
+    def get_next_state_circle(self, radius):
+        next_state = copy.deepcopy(self)
+        next_state.next_circle(radius)
+        return next_state
