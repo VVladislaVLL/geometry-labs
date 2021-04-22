@@ -24,7 +24,7 @@ def reflect(p, vector_coords):
 
 
 def plot_task(rectangle, points):
-    MIN_DISTANSE = 0.2
+    MIN_DISTANSE = 0.5
     plt.ion()
     s = 1
     while s:
@@ -40,14 +40,13 @@ def plot_task(rectangle, points):
         for i in points:
             flag_binary = binary_test(rectangle, i.get_next_state_circle(MIN_DISTANSE / 2))['flag']
             if not flag_binary:
-                plt.scatter(i.x, i.y)
                 coords_binary = binary_test(rectangle, i.get_next_state_circle(MIN_DISTANSE / 2))['points']
                 new_direction = reflect(i, coords_binary)
                 i.direction = new_direction
 
         for i in points:
                 i.move()
-                plt.scatter(i.x, i.y)
+                plt.scatter(i.x, i.y, s=MIN_DISTANSE / 2 * 750, marker='o', c='g')
 
         plt.draw()
         plt.gcf().canvas.flush_events()
@@ -63,26 +62,14 @@ if __name__ == '__main__':
     rectangle = [Point(1, 1), Point(1, 10), Point(15, 10), Point(15, 1)]
 
     # Our points
-    points_set = [Point(2, 2), Point(2, 2.5), Point(4, 2),
+    points_set = [Point(2, 2), Point(2, 3), Point(4, 2),
                   Point(4, 5), Point(4, 8), Point(6, 2),
                   Point(6,9), Point(8, 5), Point(10,3),
                   Point(11,9), Point(12, 5), Point(12,8)]
 
-
-    # Test example
-    # draw_polygon(rectangle)
-    # plt.scatter(list(map(lambda p: p.x, points_set)), list(map(lambda p: p.y, points_set)))
-    # Тут как раз создние массива координат
-    # points_set_coords = list(map(lambda p: [p.x, p.y], points_set))
-    # Если подключишь divideAndRule, то он работает не с точками а с массивом коорднат
-    # minPair = divide_and_rule(points_set_coords)
-    # Если подключишь divideAndRule2, то он работает не с точками
-    # minPair = divide_and_rule(points_set)
-    # print(minPair)
-
     # Set points direction
     for point in points_set:
-        point.set_direction(Vector2d.get_vector(random.uniform(0, 2 * pi), 0.1))
+        point.set_direction(Vector2d.get_vector(random.uniform(0, 2 * pi), 0.09))
 
     plot_task(rectangle, points_set)
 
