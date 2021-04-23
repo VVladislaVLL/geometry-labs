@@ -23,14 +23,14 @@ def reflect(p, vector_coords):
     return new_direction
 
 
-def plot_task(rectangle, points):
+def plot_task(rectangle, points, points_y):
     MIN_DISTANSE = 0.5
     plt.ion()
     s = 1
     while s:
         plt.clf()
         draw_polygon(rectangle)
-        clash_flag = divide_and_rule(points)
+        clash_flag = divide_and_rule(points, points_y)
 
         if clash_flag[1] <= MIN_DISTANSE:
             clash_flag[0][0].reflect_direction()
@@ -67,11 +67,17 @@ if __name__ == '__main__':
                   Point(6,9), Point(8, 5), Point(10,3),
                   Point(11,9), Point(12, 5), Point(12,8)]
 
+    points_set.sort(key=lambda point: (point.x, point.y))
+    points_set_y = points_set.copy()
+    points_set_y.sort(key=lambda point: (point.y, point.x))
+
+    # min_dist = divide_and_rule(points_set)
+    # print(min_dist)
     # Set points direction
     for point in points_set:
         point.set_direction(Vector2d.get_vector(random.uniform(0, 2 * pi), 0.09))
 
-    plot_task(rectangle, points_set)
+    plot_task(rectangle, points_set, points_set_y)
 
 
 
