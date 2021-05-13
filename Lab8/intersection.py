@@ -52,31 +52,31 @@ def polygons_intersection(P, Q):
   for i in range(0, 2 * (m + n)):
     if aims_at(P[p], P[next_p], Q[q], Q[next_q]) and aims_at(Q[q], Q[next_q], P[p], P[next_p]):
       if external(P[next_p], Q[next_q]):
-        p = next_el(p, n)
-        next_p = next_el(p, n)
+        p = next_p
+        next_p = next_el(next_p, n)
       else:
-        q = next_el(q, m)
-        next_q = next_el(q, m)
+        q = next_q
+        next_q = next_el(next_q, m)
     elif aims_at(P[p], P[next_p], Q[q], Q[next_q]) and not aims_at(Q[q], Q[next_q], P[p], P[next_p]):
       if not external(P[next_p], Q[next_q]):
         Res.append(P[next_p])
-      p = next_el(p, n)
-      next_p = next_el(p, n)
+      p = next_p
+      next_p = next_el(next_p, n)
     elif not aims_at(P[p], P[next_p], Q[q], Q[next_q]) and aims_at(Q[q], Q[next_q], P[p], P[next_p]):
       if external(P[next_p], Q[next_q]):
         Res.append(Q[next_q])
-      q = next_el(q, m)
-      next_q = next_el(q, m)
+      q = next_q
+      next_q = next_el(next_q, m)
     elif not aims_at(P[p], P[next_p], Q[q], Q[next_q]) and not aims_at(Q[q], Q[next_q], P[p], P[next_p]):
       if is_intersect(P[p], P[next_p], Q[q], Q[next_q]):
         Res.append(get_intersection(P[p], P[next_p], Q[q], Q[next_q]))
       if external(P[next_p], Q[next_q]):
-        p = next_el(p, n)
-        next_p = next_el(p, n)
+        p = next_p
+        next_p = next_el(next_p, n)
       else:
-        q = next_el(q, m)
-        next_q = next_el(q, m)
-    if len(Res) and Res[0] == Res[len(Res) - 1]:
+        q = next_q
+        next_q = next_el(next_q, m)
+    if len(Res) > 1 and Res[0] == Res[len(Res) - 1]:
       Res.remove(Res[len(Res) - 1])
       break
 
