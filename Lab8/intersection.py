@@ -20,7 +20,7 @@ def external(a2, b2):
 def aims_at(a1, a2, b1, b2):
   v1 = Vector2d(a1, a2)
   v2 = Vector2d(b1, b2)
-  is_col = (v1.x / v2.x) == (v1.y / v2.y)
+  is_col = (v1.x * v2.y) == (v1.y * v2.x)
 
   if is_col:
     if a2.x >= b2.x:
@@ -42,7 +42,7 @@ def polygons_intersection(P, Q):
   p = 0
   q = 0
   for i in range(0, n):
-    if check_point_pos(P[i], P[next_el(i, n)], Q[0]) == -1 or check_point_pos(Q[0], Q[1], P[next_el(i, n)]) == -1:
+    if check_point_pos(P[i], P[next_el(i, n)], Q[0]) < 0 or check_point_pos(Q[0], Q[1], P[next_el(i, n)]) < 0:
       p = i
       break
 
@@ -77,8 +77,7 @@ def polygons_intersection(P, Q):
         q = next_el(q, m)
         next_q = next_el(q, m)
     if len(Res) and Res[0] == Res[len(Res) - 1]:
+      Res.remove(Res[len(Res) - 1])
       break
-
-  Res.remove(Res[len(Res) - 1])
 
   return Res

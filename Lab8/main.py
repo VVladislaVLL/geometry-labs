@@ -1,58 +1,71 @@
 #!/usr/bin/python
 
-from intersection import polygons_intersection
+
+from intersection import polygons_intersection, external, aims_at
 import pylab
-import matplotlib.patches
-import matplotlib.lines
-import matplotlib.path
 import matplotlib.pyplot as plt
 from utils.graph import draw_polygon
 from time import sleep
 from classes.Point import Point
 from classes.Vector2d import Vector2d
 
+from celluloid import Camera
+from matplotlib import rcParams
 
-def draw_polygons(axes, first_polygon, second_polygon):
-  polygon_1 = matplotlib.patches.Polygon([(first_polygon[0].x, first_polygon[0].y),
-                                          (first_polygon[1].x, first_polygon[1].y),
-                                          (first_polygon[2].x, first_polygon[2].y),
-                                          (first_polygon[3].x, first_polygon[3].y),
-                                          (first_polygon[4].x, first_polygon[4].y),
-                                          (first_polygon[5].x, first_polygon[5].y),
-                                          (first_polygon[6].x, first_polygon[6].y)],
-                                         color="g")
-  axes.add_patch(polygon_1)
-
-  polygon_2 = matplotlib.patches.Polygon([(second_polygon[0].x, second_polygon[0].y),
-                                          (second_polygon[1].x, second_polygon[1].y),
-                                          (second_polygon[2].x, second_polygon[2].y),
-                                          (second_polygon[3].x, second_polygon[3].y),
-                                          (second_polygon[4].x, second_polygon[4].y),
-                                          (second_polygon[5].x, second_polygon[5].y)],
-                                         fill='b')
-  axes.add_patch(polygon_2)
+fig, ax = plt.subplots()
+camera = Camera(fig)
 
 
-def plot_task(axes, first_polygon, second_polygon):
+# def draw_polygons(axes, first_polygon, second_polygon):
+#   polygon_1 = matplotlib.patches.Polygon([(first_polygon[0].x, first_polygon[0].y),
+#                                           (first_polygon[1].x, first_polygon[1].y),
+#                                           (first_polygon[2].x, first_polygon[2].y),
+#                                           (first_polygon[3].x, first_polygon[3].y),
+#                                           (first_polygon[4].x, first_polygon[4].y),
+#                                           (first_polygon[5].x, first_polygon[5].y),
+#                                           (first_polygon[6].x, first_polygon[6].y)],
+#                                          color="g")
+#   axes.add_patch(polygon_1)
+#
+#   polygon_2 = matplotlib.patches.Polygon([(second_polygon[0].x, second_polygon[0].y),
+#                                           (second_polygon[1].x, second_polygon[1].y),
+#                                           (second_polygon[2].x, second_polygon[2].y),
+#                                           (second_polygon[3].x, second_polygon[3].y),
+#                                           (second_polygon[4].x, second_polygon[4].y),
+#                                           (second_polygon[5].x, second_polygon[5].y)],
+#                                          fill='b')
+#   axes.add_patch(polygon_2)
+
+
+def plot_task(first_polygon, second_polygon):
   plt.ion()
-  flag = True
 
-  while flag:
-    plt.clf()
-
-    for point in first_polygon:
-      point.move()
-    for point in second_polygon:
-      point.move()
-
-    draw_polygons(axes, first_polygon, second_polygon)
-    intersection = polygons_intersection(first_polygon, second_polygon)
-    draw_polygon(intersection)
+  for k in range(0, 50):
+    # Рисуем многоугольники
+    draw_polygon(first_polygon)
+    draw_polygon(second_polygon)
+    # Получаем массив точек пересечения многоугольников
+    res = polygons_intersection(first_polygon, second_polygon)
+    # Зарисовываем пересечение многоугольников
+    print(res)
+    if res:
+      # draw_polygon(res, "gray")
+      ax.fill(res[0], res[1], "gray")
+    # Делаем шаг анимации
+    camera.snap()
+    # Двигаем многоугольники
+    for p in first_polygon:
+      p.move()
+    for p in second_polygon:
+      p.move()
 
     plt.draw()
     plt.gcf().canvas.flush_events()
     sleep(0.0001)
 
+  # Сохраняем анимацию
+  animation = camera.animate()
+  animation.save('animation.gif', writer='imagemagick')
   plt.ioff()
   plt.show()
 
@@ -71,10 +84,4 @@ if __name__ == '__main__':
   for point in second_polygon:
     point.set_direction([Vector2d(speed * -1, 0), speed])
 
-  # Получим текущие оси
-  axes = pylab.gca()
-  axes.set_aspect("equal")
-  draw_polygons(axes, first_polygon, second_polygon)
-
-  # plot_task(axes, first_polygon, second_polygon)
-  plt.show()  # if you need...
+  plot_task(first_polygon, second_polygon)
