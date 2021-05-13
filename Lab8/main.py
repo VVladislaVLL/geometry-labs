@@ -47,9 +47,7 @@ def plot_task(first_polygon, second_polygon):
     # Получаем массив точек пересечения многоугольников
     res = polygons_intersection(first_polygon, second_polygon)
     # Зарисовываем пересечение многоугольников
-    if res:
-      # TODO: нужно зарисовать нормально пересечение и посмотреть как оно строится
-      # ax.fill(res[0], res[1], "gray")
+    ax.fill(list(map(lambda p: p.x, res)), list(map(lambda p: p.y, res)), "gray")
     # Делаем шаг анимации
     camera.snap()
     # Двигаем многоугольники
