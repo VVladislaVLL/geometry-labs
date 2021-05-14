@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
 
-from intersection import polygons_intersection, external, aims_at
+from utils.utils import is_intersect
+from intersection import polygons_intersection
 import pylab
 import matplotlib.pyplot as plt
 from utils.graph import draw_polygon
@@ -47,14 +48,14 @@ def plot_task(first_polygon, second_polygon):
     # Получаем массив точек пересечения многоугольников
     res = polygons_intersection(first_polygon, second_polygon)
     # Зарисовываем пересечение многоугольников
-    ax.fill(list(map(lambda p: p.x, res)), list(map(lambda p: p.y, res)), "gray")
+    ax.fill(list(map(lambda point: point.x, res)), list(map(lambda point: point.y, res)), "gray")
     # Делаем шаг анимации
     camera.snap()
     # Двигаем многоугольники
-    for p in first_polygon:
-      p.move()
-    for p in second_polygon:
-      p.move()
+    for p1 in first_polygon:
+      p1.move()
+    for p2 in second_polygon:
+      p2.move()
 
     plt.draw()
     plt.gcf().canvas.flush_events()
@@ -82,3 +83,6 @@ if __name__ == '__main__':
     point.set_direction([Vector2d(speed * -1, 0), speed])
 
   plot_task(first_polygon, second_polygon)
+  # p = [Point(2, 1), Point(2, 5), Point(6, 5), Point(6, 1)]
+  # q = [Point(3, 4), Point(6, 7), Point(8, 3)]
+  # print(is_intersect(Point(3, 4), Point(7, 5), Point(2, 5), Point(6, 3)))
