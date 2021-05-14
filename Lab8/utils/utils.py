@@ -35,12 +35,12 @@ def determinant(p1, p2, p3, p4):
 
 def check_point_pos(p1, p2, p0):
     det = determinant(p1, p2, p1, p0)
-    if det > 0:
+    if det > 0: # left
         return 1
     elif det < 0:
-        return -1
+        return -1 # right
     else:
-        return 0
+        return 0 # on
 
 
 def check_triangle(p1, p2, p3):
@@ -66,3 +66,7 @@ def check_triangle(p1, p2, p3):
             return [p1, p2]
         elif p2 == p3:
             return [p1, p2]
+
+
+def get_scalar_product(v1, v2):
+    return v1.x * v2.x + v1.y * v2.y
