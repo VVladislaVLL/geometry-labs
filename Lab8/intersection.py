@@ -27,8 +27,8 @@ def aims_at(a1, a2, b1, b2):
   is_col = check_point_pos(a1, a2, b1) == 0 and check_point_pos(a1, a2, b2) == 0
 
   if is_col:
-    # (a1.x - a2.x) * (b2.x - b1.x) + (a1.y - a2.y) * (b2.y - b1.y) < 0
-    if a2.x >= b2.x:
+    #
+    if (a1.x - a2.x) * (b2.x - b1.x) + (a1.y - a2.y) * (b2.y - b1.y) < 0:
       return True
   else:
     if determinant(b1, b2, a1, a2) <= 0 and determinant(b1, b2, b1, a2) >= 0:
@@ -73,7 +73,6 @@ def polygons_intersection(P, Q):
       q = next_q
       next_q = next_el(q, m)
     elif not aims_at(P[p], P[next_p], Q[q], Q[next_q]) and not aims_at(Q[q], Q[next_q], P[p], P[next_p]):
-      # check this
       if is_intersect(P[p], P[next_p], Q[q], Q[next_q]):
         Res.append(get_intersection(P[p], P[next_p], Q[q], Q[next_q]))
       if external(P[p], P[next_p], Q[q], Q[next_q]):

@@ -83,6 +83,3 @@ if __name__ == '__main__':
     point.set_direction([Vector2d(speed * -1, 0), speed])
 
   plot_task(first_polygon, second_polygon)
-  # p = [Point(2, 1), Point(2, 5), Point(6, 5), Point(6, 1)]
-  # q = [Point(3, 4), Point(6, 7), Point(8, 3)]
-  # print(is_intersect(Point(3, 4), Point(7, 5), Point(2, 5), Point(6, 3)))
