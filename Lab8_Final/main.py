@@ -5,7 +5,8 @@ from celluloid import Camera
 
 from classes.Point import Point
 from classes.Vector2d import Vector2d
-from utils.graph import draw_polygon, draw_figure_ca
+from utils.utils import reverse_polygon
+from utils.graph import draw_polygon, draw_line
 from intersection import polygon_intersection
 from cyrus_beck import cyrus_beck, change_line_with_params
 
@@ -30,7 +31,7 @@ def plot_task(P, Q):
 
     # Алгоритм Цируса-бека и отрисовка
     t1, t2 = cyrus_beck([P[0], P[2]], Q)
-    draw_figure_ca(change_line_with_params([P[0], P[2]], t1, t2), "black")
+    draw_line(change_line_with_params([P[0], P[2]], t1, t2), "black")
 
     # Делаем шаг анимации
     camera.snap()
@@ -46,7 +47,6 @@ def plot_task(P, Q):
 
   # Сохраняем анимацию
   animation = camera.animate()
-  animation.save('animation.gif', writer='imagemagick')
   plt.ioff()
   plt.show()
 
@@ -58,6 +58,9 @@ def main():
   # Координаты точек вершин второго многоугольника
   Q = [Point(1, 2), Point(3, 0), Point(8, 0), Point(10, 2), Point(8, 4), Point(3, 4)]
   # Q = [Point(16, 2), Point(21, 4), Point(20, 6), Point(16, 9), Point(13, 7), Point(13, 4)]
+
+  reverse_polygon(P)
+  reverse_polygon(Q)
 
   # Задаем направление точкам
   speed = 0.25

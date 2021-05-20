@@ -58,17 +58,8 @@ def draw_figure(points: [Point], color):
     plt.plot([point.x, points[(ind + 1) % len(points)].x], [point.y, points[(ind + 1) % len(points)].y], color)
 
 
-def draw_line(p1, p2, color=False):
+def draw_line(pts, color=False):
   if color:
-    plt.plot([p1.x, p2.x], [p1.y, p2.y], color=color)
+    plt.plot([pts[0].x, pts[1].x], [pts[0].y, pts[1].y], color=color)
   else:
-    plt.plot([p1.x, p2.x], [p1.y, p2.y])
-  # print(sec_point, sec_point, zero_point)
-
-
-def draw_figure_ca(points, color=False):
-  for ind in range(0, len(points)):
-    try:
-      draw_line(points[ind], points[ind + 1], color)
-    except:
-      draw_line(points[ind], points[0], color)
+    plt.plot([pts[0].x, pts[1].x], [pts[0].y, pts[1].y])

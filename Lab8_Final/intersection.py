@@ -1,27 +1,7 @@
-from utils.utils import is_intersect, next_el, get_intersection, check_point_pos, determinant, my_det
+from utils.utils import is_intersect, next_el, get_intersection, check_point_pos, determinant
 
 
-# a1, a2, b1, b2
-# p1_start, p1_end, p2_start, p2_end
 def is_aimed(a1, a2, b1, b2):
-  # x1_v = p1_end.x - p1_start.x
-  # y1_v = p1_end.y - p1_start.y
-  # x2_v = p2_end.x - p2_start.x
-  # y2_v = p2_end.y - p2_start.y
-  # x12_v = p1_end.x - p2_start.x
-  # y12_v = p1_end.y - p2_start.y
-  # if ((my_det(x2_v, y2_v, x12_v, y12_v) > 0)
-  #     and (my_det(x2_v, y2_v, x1_v, y1_v) < 0)):
-  #   return True
-  # if ((my_det(x2_v, y2_v, x12_v, y12_v) < 0)
-  #     and (my_det(x2_v, y2_v, x1_v, y1_v) > 0)):
-  #   return True
-  # # Случай если отрезки лежат на одной прямой
-  # if ((check_point_pos(p1_start, p1_end, p2_start) == 0)
-  #     and (check_point_pos(p1_start, p1_end, p2_end) == 0)
-  #     and (((-x1_v) * (p2_end.x - p1_end.x)) + ((-y1_v) * (p2_end.y - p1_end.y))) < 0):
-  #   return True
-  # return False
   is_col = check_point_pos(b1, b2, a1) == 0 and check_point_pos(b1, b2, a2) == 0
 
   if is_col:
