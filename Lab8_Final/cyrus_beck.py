@@ -34,12 +34,12 @@ def cyrus_beck(segment, points):
     t1 = get_intersection(A, B, points[i], points[next_el(i, n)]).y - A.y
     t = t1 / t2
     scalar_product = Vector2d.scalar_product(Vector2d(A, B), normal)
-    # если ПП
-    if scalar_product > 0:
-      tB = min(tB, t)
-    else:
-      # если ПВ
+    # если ПВ
+    if scalar_product < 0:
       tA = max(tA, t)
+    else:
+      # если ПП
+      tB = min(tB, t)
   if tA > tB:
     return 0, 0
   return tA, tB
