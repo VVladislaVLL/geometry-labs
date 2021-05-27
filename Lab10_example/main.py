@@ -1,73 +1,15 @@
 import numpy as np
+
+from classes.Point import Point
+from graph import draw_graph
 from utils import draw_line, define_orientation
 from utils import is_intersect
 from utils import append_point as append_point_to_hull
 import matplotlib.pyplot as plt
 import copy
-import random
-from utils import draw_figure
+
 
 # эта статья использовалась https://habr.com/ru/post/445048/
-
-class Point():
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.bound_points = []
-
-    def bind(self, point):
-        if point not in self.bound_points:
-            point.bound_points.append(self)
-            self.bound_points.append(point)
-
-    def unbind(self, point):
-        point.bound_points.remove(self)
-        self.bound_points.remove(point)
-
-    def __eq__(self, other):
-        try:
-            return self.x == other.x and self.y == other.y
-        except:
-            return False
-
-    def __repr__(self):
-        return f"Point [{str(self.x)}, {str(self.y)}]"
-
-    def __hash__(self):
-        return hash((self.x, self.y))
-
-    def __getitem__(self, ind):
-        if ind == 0:
-            return self.x
-        if ind == 1:
-            return self.y
-
-    def __setitem__(self, ind, value):
-        if ind == 0:
-            self.x = value
-        if ind == 1:
-            self.y = value
-
-    def distance(self, point):
-        return ((self.x - point.x) ** 2 + (self.y - point.y) ** 2) ** (1 / 2)
-
-    def __sub__(self, other):
-        return Point(self.x - other.x, self.y - other.y)
-
-
-def recursive_draw(point):
-    bounded_points_copy = copy.copy(point.bound_points)
-    while len(point.bound_points):
-        draw_line(point.bound_points[0], point)
-        point.bound_points[0].unbind(point)
-    for point in bounded_points_copy:
-        recursive_draw(point)
-
-
-def draw_graph(original_points):
-    points = copy.deepcopy(original_points)
-    recursive_draw(points[0])
-    # draw_line()
 
 
 def define_circle(p1, p2, p3):
@@ -85,7 +27,7 @@ def define_circle(p1, p2, p3):
     radius = np.sqrt((cx - p1[0]) ** 2 + (cy - p1[1]) ** 2)
     return (Point(cx, cy), radius)
 
-
+# Проверка условия Делоне методом "Проверка с заранее вычисленной описанной окружностью"
 def check_condition(point1, point2, vertex1, vertex2):
     center1, radius1 = define_circle(point1, point2, vertex1)
     center2, radius2 = define_circle(point1, point2, vertex2)
@@ -93,7 +35,7 @@ def check_condition(point1, point2, vertex1, vertex2):
 
 
 def find_visible_points(convex_hall, point_to_append):
-    #найти угол между вектором нормали и вектором проекции. Если он тупой то ребро видимо
+    # найти угол между вектором нормали и вектором проекции. Если он тупой то ребро видимо
     sides = []
     for point in convex_hall:
         counter = 0
@@ -177,11 +119,14 @@ def add_point(convex_hall, point_to_add):
 def create_triangulation(original_points):
     points = copy.deepcopy(original_points)
     points = [i for n, i in enumerate(points) if i not in points[:n]]
+    # Сортировка всех точек
     points.sort(key=lambda point: (point.y, point.x))
+    # Строим Ттреугольник на первых 3 точках
     points[0].bind(points[1])
     points[1].bind(points[2])
     points[2].bind(points[0])
     convex_hall = points[:3]
+    # Далее идем по остальным точкам
     for i in range(3, len(points)):
         print(f"{i}.")
         convex_hall = add_point(convex_hall, points[i])
