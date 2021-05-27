@@ -27,6 +27,7 @@ def define_circle(p1, p2, p3):
     radius = np.sqrt((cx - p1[0]) ** 2 + (cy - p1[1]) ** 2)
     return (Point(cx, cy), radius)
 
+
 # Проверка условия Делоне методом "Проверка с заранее вычисленной описанной окружностью"
 def check_condition(point1, point2, vertex1, vertex2):
     center1, radius1 = define_circle(point1, point2, vertex1)
@@ -37,6 +38,7 @@ def check_condition(point1, point2, vertex1, vertex2):
 def find_visible_points(convex_hall, point_to_append):
     # найти угол между вектором нормали и вектором проекции. Если он тупой то ребро видимо
     sides = []
+    # stop_point = 0
     for point in convex_hall:
         counter = 0
         for i in range(len(convex_hall)):
@@ -67,18 +69,31 @@ def find_visible_points(convex_hall, point_to_append):
             return sides[i:] + sides[:i]
 
 
+# def find_visible_points(convex_hall, point_to_append):
+#     d_hall = copy.deepcopy(convex_hall)
+#     d_hall = d_hall.sort(lambda p: p.x)
+#     res = []
+#     length = len(convex_hall)
+#     for i in range(0, len(convex_hall) - 1):
+#         if define_orientation(convex_hall[i], convex_hall[i + 1 if i + 1 < length else 0], point_to_append) == "right":
+#             res.append(convex_hall[i])
+#             res.append(convex_hall[i + 1 if i + 1 < length else 0])
+#     return res
+
+
 def find_common_bound_points(point1, point2):
+    # возвраает пересечения множеств в виде кортежа (общие забаинденные точки для p1 и p2)
     common_points = tuple(frozenset(point1.bound_points).intersection(frozenset(point2.bound_points)))
     return common_points
-    if len(common_points) == 0:
-        print("zero common points")
-        return []
-    if len(common_points) == 1:
-        return common_points
-    if define_orientation(point1, point2, common_points[0]) == "left":
-        return common_points
-    else:
-        return (common_points[1], common_points[0])
+    # if len(common_points) == 0:
+    #     print("zero common points")
+    #     return []
+    # if len(common_points) == 1:
+    #     return common_points
+    # if define_orientation(point1, point2, common_points[0]) == "left":
+    #     return common_points
+    # else:
+    #     return (common_points[1], common_points[0])
 
 
 def recursive_change(point1, point2):
@@ -127,6 +142,9 @@ def create_triangulation(original_points):
     points[2].bind(points[0])
     convex_hall = points[:3]
     # Далее идем по остальным точкам
+    # convex_hall = add_point(convex_hall, points[3])
+    # convex_hall = add_point(convex_hall, points[4])
+    # convex_hall = add_point(convex_hall, points[5])
     for i in range(3, len(points)):
         print(f"{i}.")
         convex_hall = add_point(convex_hall, points[i])
@@ -135,16 +153,16 @@ def create_triangulation(original_points):
 
 if __name__ == "__main__":
     fig, ax = plt.subplots()
-    points1 = [Point(0, 8.5), Point(8.2, 0), Point(8, 4), Point(14, 4), Point(19, 5.5), Point(3, 11), Point(7, 12),
-               Point(12, 11.5), Point(17, 9), Point(19, 5.5)]
+    # points1 = [Point(0, 8.5), Point(8.2, 0), Point(8, 4), Point(14, 4), Point(19, 5.5), Point(3, 11), Point(7, 12),
+    #            Point(12, 11.5), Point(17, 9), Point(19, 5.5)]
     coords = [(35, 425), (123, 365), (240, 192), (480, 67), (512, 212), (671, 161), (897, 431), (800, 383), (674, 377),
               (553, 445), (454, 542), (374, 452), (266, 394), (344, 374)]
     points2 = [Point(coord[0], coord[1]) for coord in coords]
 
-    draw_graph(create_triangulation(points1))
-    for point in points1:
-        plt.plot(point.x, point.y, 'ro')
-    plt.show()
+    # draw_graph(create_triangulation(points1))
+    # for point in points1:
+    #     plt.plot(point.x, point.y, 'ro')
+    # plt.show()
     draw_graph(create_triangulation(points2))
     for point in points2:
         plt.plot(point.x, point.y, 'ro')
