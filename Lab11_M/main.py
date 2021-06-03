@@ -2,6 +2,8 @@ import pygame
 import sys
 import math
 
+from classes.Vector2d import Vector3d
+
 pygame.init()
 FPS = 16
 WIN_WIDTH = 600
@@ -17,25 +19,34 @@ sc = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 FONT = pygame.font.Font(None, 20)
 
 
-def dist_proj_a_to_b(a: list, b: list):
-  return (a[0] * b[0] + a[1] * b[1] + a[2] * b[2]) / (math.sqrt(b[0] * b[0] + b[1] * b[1] + b[2] * b[2]))
+def dist_proj_a_to_b(a, b):
+  # return (a[0] * b[0] + a[1] * b[1] + a[2] * b[2]) / (math.sqrt(b[0] * b[0] + b[1] * b[1] + b[2] * b[2]))
+  return (a[0] * b.x + a[1] * b.y + a[2] * b.z) / (math.sqrt(b.x * b.x + b.y * b.y + b.z * b.z))
 
 
-def scale(v: list, sc: int):
-  return [v[0] * sc, v[1] * sc, v[2] * sc]
+### Implemented in Vector3d class
+# def scale(v: list, sc: int):
+#   return [v[0] * sc, v[1] * sc, v[2] * sc]
 
 
-def vect_multiply(a: list, b: list):
-  return [a[1] * b[2] - b[1] * a[2], a[2] * b[0] - b[2] * a[0], a[0] * b[1] - b[0] * a[1]]
+### Implemented in Vector3d class
+# def vect_multiply(a: list, b: list):
+#   return [a[1] * b[2] - b[1] * a[2], a[2] * b[0] - b[2] * a[0], a[0] * b[1] - b[0] * a[1]]
 
 
 def rotate(q: list, point: list, perp: list):
-  p = [point[0] - perp[0], point[1] - perp[1], point[2] - perp[2]]
-  q_dir = [q[1], q[2], q[3]]
-  vect_mult = vect_multiply(q_dir, p)
-  return [perp[0] + p[0] * q[0] + vect_mult[0],
-          perp[1] + p[1] * q[0] + vect_mult[1],
-          perp[2] + p[2] * q[0] + vect_mult[2]]
+  # p = [point[0] - perp[0], point[1] - perp[1], point[2] - perp[2]]
+  # q_dir = [q[1], q[2], q[3]]
+  # vect_mult = vect_multiply(q_dir, p)
+  p = Vector3d(point[0] - perp[0], point[1] - perp[1], point[2] - perp[2])
+  q_dir = Vector3d(q[1], q[2], q[3])
+  vect_mult = Vector3d.vect_product(q_dir, p)
+  # return [perp[0] + p[0] * q[0] + vect_mult[0],
+  #         perp[1] + p[1] * q[0] + vect_mult[1],
+  #         perp[2] + p[2] * q[0] + vect_mult[2]]
+  return [perp[0] + p.x * q[0] + vect_mult.x,
+          perp[1] + p.y * q[0] + vect_mult.y,
+          perp[2] + p.z * q[0] + vect_mult.z]
 
 
 #  Draw functions
@@ -90,16 +101,18 @@ cube = [[ip[0], ip[1], ip[2]], [ip[0] + size, ip[1], ip[2]], [ip[0], ip[1] + siz
         [ip[0] + size, ip[1] + size, ip[2] + size]]
 
 angle_dir = 45
-q_dir = [math.cos(math.radians(angle_dir)), math.sin(math.radians(angle_dir)), 0]
+# q_dir = [math.cos(math.radians(angle_dir)), math.sin(math.radians(angle_dir)), 0]
+q_dir = Vector3d(math.cos(math.radians(angle_dir)), math.sin(math.radians(angle_dir)), 0)
 delta = 0.1047
 q = [math.cos(0.5 * delta),
-     math.sin(0.5 * delta) * q_dir[0],
-     math.sin(0.5 * delta) * q_dir[1],
-     math.sin(0.5 * delta) * q_dir[2]]
+     math.sin(0.5 * delta) * q_dir.x,
+     math.sin(0.5 * delta) * q_dir.y,
+     math.sin(0.5 * delta) * q_dir.z]
 
 perpends_on_q = list()
 for point in cube:
-  perpends_on_q.append(scale(q_dir, dist_proj_a_to_b(point, q_dir)))
+  # perpends_on_q.append(scale(q_dir, dist_proj_a_to_b(point, q_dir)))
+  perpends_on_q.append(Vector3d.s_mult(q_dir, dist_proj_a_to_b(point, q_dir)))
 
 while RUNNING:
   for i in pygame.event.get():
