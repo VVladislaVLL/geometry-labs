@@ -2,7 +2,7 @@ import copy
 
 
 class Point:
-  def __init__(self, x, y, z):
+  def __init__(self, x, y, z = 0):
     self.x = x
     self.y = y
     self.z = z
@@ -23,41 +23,12 @@ class Point:
   def __hash__(self):
     return hash((self.x, self.y, self.z))
 
-  @staticmethod
-  def get_random_point():
-    return Point(1, 1, 1)
-
   def print(self):
     print('(' + str(self.x) + ', ' + str(self.y) + ', ' + str(self.z) + ')')
 
-  def draw(self, ax):
-    self.figure = ax.plot(self.x, self.y, 'go')
-
-  def set_direction(self, vector):
-    self.direction = vector[0]
-    self.speed = vector[1]
-
-  def move(self):
-    self.x += self.direction.x
-    self.y += self.direction.y
-
-  def next(self):
-    self.x += self.direction.x
-    self.y += self.direction.y
-
-  def stop(self):
-    self.direction.x = 0
-    self.direction.y = 0
-
-  def get_next_state(self):
-    next_state = copy.deepcopy(self)
-    next_state.next()
-    return next_state
-
-  def reflect_direction(self):
-    self.direction.x = -self.direction.x
-    self.direction.y = -self.direction.y
-
-
   def reverse(self):
     return Point(-self.x, -self.y, -self.z)
+
+  @staticmethod
+  def get_center(p1, p2):
+    return Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, 0)

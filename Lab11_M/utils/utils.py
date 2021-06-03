@@ -1,72 +1,70 @@
-from classes.Vector2d import Vector2d
+from math import sin, cos
+
+from classes.Point import Point
 
 
-def is_intersect(p1, p2, p3, p4):
-  d1 = determinant(p3, p4, p3, p1)
-  d2 = determinant(p3, p4, p3, p2)
-  d3 = determinant(p1, p2, p1, p3)
-  d4 = determinant(p1, p2, p1, p4)
-  if d1 == d2 == d3 == d4 == 0:
-    c1 = Vector2d.scalar_product(Vector2d(p1, p3), Vector2d(p1, p4))
-    c2 = Vector2d.scalar_product(Vector2d(p2, p3), Vector2d(p2, p4))
-    c3 = Vector2d.scalar_product(Vector2d(p3, p1), Vector2d(p3, p2))
-    c4 = Vector2d.scalar_product(Vector2d(p4, p1), Vector2d(p4, p2))
-    if c1 < 0 or c2 < 0 or c3 < 0 or c4 < 0:
-      return True
-    else:
-      return False
-  elif d1 * d2 <= 0 and d3 * d4 <= 0:
-    return True
-  else:
-    return False
+def multiply_matrix(m1, m2):
+  return [[sum(a * b for a, b in zip(m1_row, m2_col))
+           for m2_col in zip(*m2)]
+          for m1_row in m1]
 
 
-def next_el(i, n):
-  return (i + 1) % n
+def init_cube():
+  start_point = Point(300, 200, 100)
+  side_length = 50
+  # Куб
+  cube = [start_point,
+          Point(start_point.x + side_length, start_point.y, start_point.z),
+          Point(start_point.x, start_point.y + side_length, start_point.z),
+          Point(start_point.x + side_length, start_point.y + side_length, start_point.z),
+          Point(start_point.x, start_point.y, start_point.z + side_length),
+          Point(start_point.x + side_length, start_point.y, start_point.z + side_length),
+          Point(start_point.x, start_point.y + side_length, start_point.z + side_length),
+          Point(start_point.x + side_length, start_point.y + side_length, start_point.z + side_length)
+          ]
+  return cube
 
 
-def determinant(p1, p2, p3, p4):
-  a = p2.x - p1.x
-  b = p2.y - p1.y
-  c = p4.x - p3.x
-  d = p4.y - p3.y
-  return a * d - b * c
+def get_quaternion(p0, point):
+  return [p0, point]
 
 
-def check_point_pos(p1, p2, p0):
-  det = determinant(p1, p2, p1, p0)
-  if det > 0:  # left
-    return 1
-  elif det < 0:
-    return -1  # right
-  else:
-    return 0  # on
+def get_conj_quaternion(q):
+  return get_quaternion(q[0], q[1].reverse())
 
 
-def check_triangle(p1, p2, p3):
-  if p1 == p2 == p3:
-    return p1
-  elif not p1 == p2 and not p1 == p3 and not p2 == p3:
-    pos = check_point_pos(p1, p2, p3)
-    if pos > 0:
-      return [p1, p2, p3]
-    elif pos < 0:
-      return [p1, p3, p2]
-    elif pos == 0:
-      if Vector2d.scalar_product(Vector2d(p3, p1), Vector2d(p3, p2)) < 0:
-        return [p1, p2]
-      elif Vector2d.scalar_product(Vector2d(p1, p2), Vector2d(p1, p3)) < 0:
-        return [p2, p3]
-      elif Vector2d.scalar_product(Vector2d(p2, p1), Vector2d(p2, p3)) < 0:
-        return [p1, p3]
-  else:
-    if p1 == p2:
-      return [p1, p3]
-    elif p1 == p3:
-      return [p1, p2]
-    elif p2 == p3:
-      return [p1, p2]
+def quaternions_multiplication(q1, q2):
+  p0 = q1[0] * q2[0] - q1[1].x * q2[1].x - q1[1].y * q2[1].y - q1[1].z * q2[1].z
+  p1 = q1[0] * q2[1].x + q1[1].x * q2[0] + q1[1].y * q2[1].z - q1[1].z * q2[1].y
+  p2 = q1[0] * q2[1].y + q1[1].y * q2[0] + q1[1].z * q2[1].x - q1[1].x * q2[1].z
+  p3 = q1[0] * q2[1].z + q1[1].z * q2[0] + q1[1].x * q2[1].y - q1[1].y * q2[1].x
+  return get_quaternion(p0, Point(p1, p2, p3))
 
 
-def get_scalar_product(v1, v2):
-  return v1.x * v2.x + v1.y * v2.y
+def rotation(point, n, angle):
+  s = sin(angle / 2)
+  n_q = get_quaternion(cos(angle / 2), Point(n.x * s, n.y * s, n.z * s))
+  n_q_conj = get_conj_quaternion(n_q)
+  p_q = get_quaternion(0, point)
+  return quaternions_multiplication(quaternions_multiplication(n_q, p_q), n_q_conj)[1]
+
+
+def orthogonal_projection(points):
+  new_basis = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+  new_origin = [-100, 0, 0]
+  projection = []
+  for p in points:
+    matrix = multiply_matrix(new_basis, [[p.x - new_origin[0]], [p.y - new_origin[1]], [p.z - new_origin[2]]])
+    new_x = matrix[0][0]
+    new_y = matrix[1][0]
+    projection.append(Point(new_x, new_y))
+  return projection
+
+
+def center_projection(points, center):
+  projection = []
+  for p in points:
+    x = p.x * (center.z / (center.z - p.z)) + center.x * (p.z / (center.z - p.z))
+    y = p.y * (center.z / (center.z - p.z)) + center.y * (p.z / (center.z - p.z))
+    projection.append(Point(x, y))
+  return projection

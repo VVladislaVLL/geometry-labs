@@ -4,7 +4,7 @@ from classes.Point import Point
 
 
 class Vector3d:
-  def __init__(self, point1, point2, point3):
+  def __init__(self, point1, point2, point3 = Point(0, 0, 0)):
     if type(point1) == Point:
       self.x = point2.x - point1.x
       self.y = point2.y - point1.y
@@ -24,11 +24,6 @@ class Vector3d:
   @staticmethod
   def scalar_product(v1, v2):
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
-
-  #
-  # @staticmethod
-  # def get_vector(alpha, speed=1):
-  #   return Vector3d(speed * cos(alpha), speed * sin(alpha)), speed
 
   @staticmethod
   def s_mult(v, scalar):
