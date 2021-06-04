@@ -49,22 +49,23 @@ def rotation(point, n, angle):
   return quaternions_multiplication(quaternions_multiplication(n_q, p_q), n_q_conj)[1]
 
 
-def orthogonal_projection(points):
-  new_basis = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
-  new_origin = [-100, 0, 0]
+def orth_proj(points, new_basis, new_origin):
   projection = []
   for p in points:
     matrix = multiply_matrix(new_basis, [[p.x - new_origin[0]], [p.y - new_origin[1]], [p.z - new_origin[2]]])
     new_x = matrix[0][0]
     new_y = matrix[1][0]
-    projection.append(Point(new_x, new_y))
+    new_z = matrix[2][0]
+    projection.append(Point(new_x, new_y, new_z))
   return projection
 
 
-def center_projection(points, center):
+def center_proj(points, center, new_basis, new_origin):
+  new_points = orth_proj(points, new_basis, new_origin)
+  new_center = orth_proj([center], new_basis, new_origin)[0]
   projection = []
-  for p in points:
-    x = p.x * (center.z / (center.z - p.z)) + center.x * (p.z / (center.z - p.z))
-    y = p.y * (center.z / (center.z - p.z)) + center.y * (p.z / (center.z - p.z))
+  for p in new_points:
+    x = p.x * (new_center.z / (new_center.z - p.z)) + new_center.x * (p.z / (new_center.z - p.z))
+    y = p.y * (new_center.z / (new_center.z - p.z)) + new_center.y * (p.z / (new_center.z - p.z))
     projection.append(Point(x, y))
   return projection

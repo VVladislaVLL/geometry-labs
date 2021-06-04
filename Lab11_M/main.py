@@ -6,7 +6,7 @@ import pygame
 from classes.Vector3d import Vector3d
 from classes.Point import Point
 from utils.graph import draw_cube, draw_lines
-from utils.utils import init_cube, center_projection, rotation, orthogonal_projection
+from utils.utils import init_cube, center_proj, rotation, orth_proj
 
 pygame.init()
 FPS = 30
@@ -21,7 +21,7 @@ sc = pygame.display.set_mode((800, 800))
 
 def plot_task(cube, dir_p1, dir_p2, angle):
   dir = Vector3d(dir_p1, dir_p2, 0)
-  line = [Point(dir_p1.x + 100, dir_p1.y + 100), Point(dir_p2.x * 800, dir_p2.y * 800)]
+  line = [Point(dir_p1.x, dir_p1.y), Point(dir_p2.x * 800, dir_p2.y * 800)]
 
   while True:
     for i in pygame.event.get():
@@ -29,11 +29,15 @@ def plot_task(cube, dir_p1, dir_p2, angle):
         sys.exit()
     sc.fill(BLUE)
 
-    # projection_cube = orthogonal_projection(cube)
-    # projection_line = orthogonal_projection(line)
-    center = Point(0, 0, 600)
-    projection_cube = center_projection(cube, center)
-    projection_line = center_projection(line, center)
+    # ортогональная проекция. new_basis - i столбец - координаты нового i базисного вектора
+    new_basis = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+    new_origin = [-100, 0, 0]
+    # projection_cube = orth_proj(cube, new_basis, new_origin)
+    # projection_line = orth_proj(line, new_basis, new_origin)
+
+    center = Point(0, 0, 1000)
+    projection_cube = center_proj(cube, center, new_basis, new_origin)
+    projection_line = center_proj(line, center, new_basis, new_origin)
 
     draw_cube(sc, list(map(lambda point: [point.x, point.y], projection_cube)))
     draw_lines(sc, list(map(lambda point: [point.x, point.y], projection_line)), RED)
